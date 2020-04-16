@@ -1,4 +1,5 @@
 export * from "./accounts";
-export * from "./jobs";
+export * from "./dashboard";
 export * from "./home";
+export * from "./jobs";
 export * from "./login";

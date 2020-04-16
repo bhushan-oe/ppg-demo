@@ -1,4 +1,4 @@
-import { APPROVER_ITEMS, BUYER_ITEMS } from "./jobRoles";
+import { APPROVER_ITEMS, BUYER_ITEMS } from "./dashboardRoles";
 import { Box, Tab, Tabs, Typography } from "@material-ui/core";
 import React from "react";
 
@@ -33,7 +33,7 @@ const getTabItems = (role) => {
     : BUYER_ITEMS;
 };
 
-export const JobsTab = () => {
+export const DashboardTabs = () => {
   const currentTabItems = getTabItems("approver") || [];
   const firstTab = [...currentTabItems].shift();
   const { tabValue } = firstTab || {};
@@ -89,4 +89,4 @@ export const JobsTab = () => {
   );
 };
 
-export default JobsTab;
+export default DashboardTabs;
