@@ -12,9 +12,9 @@ function* handleLogin({ payload }) {
   if (resp.status === 200) {
     localStorage.setItem('AccessToken', resp.data.access_token)
     yield put({ type: login, payload: { user: resp.data} });
-    //window.location.href= '/home' // to fix
-    const Moltin = getMoltin(resp.data.access_token);
-    yield call(GetCustomerDetails(resp.data.access_token, Moltin));
+    window.location.href= '/home' // to fix
+    //const Moltin = getMoltin(resp.data.access_token);
+    //yield call(GetCustomerDetails(resp.data.access_token, Moltin));
   }
 }
 
