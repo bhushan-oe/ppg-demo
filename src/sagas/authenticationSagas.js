@@ -1,13 +1,21 @@
 import actionTypes from "../actions/actionTypes";
 import sagaTypes from "./sagaTypes";
-import { put, takeLatest } from "redux-saga/effects";
+import { put, takeLatest, call } from "redux-saga/effects";
+import { LoginUser } from '../api/authenticationApi';
+import { GetCustomerDetails, getMoltin } from '../helper/moltin'
 
 const { authentication = {} } = actionTypes;
 const { login, logout } = authentication;
-
 function* handleLogin({ payload }) {
   const { user = null, pass = null } = payload;
-  yield put({ type: login, payload: { user, pass } });
+  const resp = yield call(LoginUser,user, pass)
+  if (resp.status === 200) {
+    localStorage.setItem('AccessToken', resp.data.access_token)
+    yield put({ type: login, payload: { user: resp.data} });
+    //window.location.href= '/home' // to fix
+    const Moltin = getMoltin(resp.data.access_token);
+    yield call(GetCustomerDetails(resp.data.access_token, Moltin));
+  }
 }
 
 function* handleLogout() {
