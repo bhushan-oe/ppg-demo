@@ -5,6 +5,9 @@ export const sagaTypes = {
   },
   accounts: {
     getAccounts: "GET_ACCOUNTS_ACTION"
+  },
+  orders: {
+    checkout: "CHECKOUT_SAGA"
   }
 };
 

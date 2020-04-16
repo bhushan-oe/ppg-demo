@@ -1,4 +1,4 @@
-import { Accounts, Dashboard, Jobs, Login, Home } from "../pages";
+import { Accounts, Dashboard, Jobs, Login, Home, Checkout } from "../pages";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import React from "react";
 
@@ -10,6 +10,7 @@ const App = () => {
       <Route path="/accounts" component={Accounts} exact />
       <Route path="/jobs" component={Jobs} exact />
       <Route path="/dashboard" component={Dashboard} exact />
+      <Route path="/checkout" component={Checkout} exact />
     </Router>
   );
 };
