@@ -1,8 +1,8 @@
 const MoltinGateway = require('@moltin/sdk').gateway;
 
-export const getMoltin = (clientId) => {
+export const getMoltin = (client_id) => {
   const Moltin = MoltinGateway({
-    clientId,
+    client_id,
     application: 'react-demo-store'
   });
   return Moltin;
