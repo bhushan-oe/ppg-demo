@@ -2,7 +2,11 @@
   background-color: #333;
   color: #fff;
   padding: 20px 0;
-
+  position: absolute;
+  width: 100%;
+  margin: 0 -8px;
+  bottom: 0;
+  
   &-small-text {
     font-size: 0.7rem;
     text-align: center;

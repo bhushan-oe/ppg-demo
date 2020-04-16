@@ -9,7 +9,6 @@ export default function authentication(state = initialState, action) {
   const { authentication = {} } = actionTypes;
   const { logout, login } = authentication;
   const { type, payload = {} } = action;
-
   switch (type) {
     case login:
       return { ...state, logged: true, user: payload.user };
