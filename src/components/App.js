@@ -1,13 +1,13 @@
-
-import { Login, Home } from "../pages";
-import { Route, BrowserRouter as Router } from "react-router-dom";
+import { Accounts, Login, Home } from "../pages";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import React from "react";
 
 const App = () => {
   return (
     <Router>
-        <Route path="/home" component={Home} exact />
-        <Route path="/" component={Login} exact />
+      <Route path="/" component={Login} exact />
+      <Route path="/home" component={Home} exact />
+      <Route path="/accounts" component={Accounts} exact />
     </Router>
   );
 };

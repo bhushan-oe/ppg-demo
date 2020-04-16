@@ -1,13 +1,8 @@
-import { Container } from "@material-ui/core";
-import Sidebar from "../../components/shared/sidebar/Sidebar";
+import PageWrapper from "../../components/shared/pageWrapper";
 import React from "react";
 
 export const Home = () => {
-  return (
-    <Container>
-      <Sidebar />
-    </Container>
-  );
+  return <PageWrapper>Home</PageWrapper>;
 };
 
 export default Home;
