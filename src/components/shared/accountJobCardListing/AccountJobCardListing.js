@@ -2,10 +2,8 @@ import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
-import actionTypes from "../../../actions/actionTypes";
 import AccountJobCard from '../accountJobCard/AccountJobCard';
 import AccountData from '../AccountData';
-import sagaTypes from "../../../sagas/sagaTypes"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,28 +16,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const mapDispatchToProps = (dispatch) => {
-//   const { accounts = {} } = sagaTypes;
-//   const { getAccounts } = accounts;
-
-//   return {
-//     getAccountsData: (AccountData) => dispatch({ type: getAccounts, payload : AccountData}),
-//   };
-// };
-
-// const mapStateToProps = ({ accounts }) => ({
-//   getAccountsData: accounts.getAccounts,
-// });
-
 const AccountJobCardListing = (props) => {
+  const { AccountsData} = props;
 
   useEffect(() => {
     props.getAccountsData(AccountData);
-  })
-
-  const {accounts} = actionTypes;
-  const {getAccounts} = accounts;
-  console.log("props ===== ",props)
+  },[]);  
+  
   const classes = useStyles();
 
   const showJobsForAccount = (accountid) => {
@@ -47,12 +30,12 @@ const AccountJobCardListing = (props) => {
   }
 
   function FormRow() {
-    return AccountData.map(item => {
-        return (
-          <Grid item xs={4} onClick={() => showJobsForAccount(item.accountid)}>
-              <AccountJobCard name={item.accountname} id={item.accountid}/>
-          </Grid>
-        )            
+    return AccountsData && AccountsData.AccountData.map(item => {
+      return (
+        <Grid item xs={4} onClick={() => showJobsForAccount(item.accountid)}>
+            <AccountJobCard name={item.accountname} id={item.accountid}/>
+        </Grid>
+      )            
     })
   }
 
@@ -67,19 +50,16 @@ const AccountJobCardListing = (props) => {
   );
 };
 
-export function mapStateToProps(state) {
-  console.log("state === ",state)
-  return {getAccountsData: state.accounts.getAccounts}
-};
-
 export function mapDispatchToProps(dispatch) {
   return {
     getAccountsData: (AccountData) => {
-      console.log("in dispatch", AccountData)
-      return dispatch({type: actionTypes.accounts.getAccounts, payload: {AccountData}});
+      return dispatch({type: "GET_ACCOUNT_SAGA_ACTION", payload: {AccountData}});
     }
   };
 }
-export default connect(mapStateToProps,mapDispatchToProps)(AccountJobCardListing);
 
-//export default AccountJobCardListing;
+export function mapStateToProps(state) {
+  return {AccountsData: state.accounts.AccountsData}
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(AccountJobCardListing);

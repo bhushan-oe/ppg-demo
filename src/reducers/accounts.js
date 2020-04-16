@@ -11,7 +11,7 @@ export default function accounts(state = initialState, action) {
 
   switch (type) {
     case getAccounts:
-      return { ...state,AccountsData: payload.AccountData  };
+      return { ...state, AccountsData: payload.AccountData  };
     default:
       return state;
   }
