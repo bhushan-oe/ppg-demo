@@ -1,0 +1,12 @@
+.root-card {
+    min-width: 200px;
+    padding: 20px;
+    background: rgba(183, 222, 239, 0.2) !important;
+    &:hover {
+        background: rgba(10,121,170,0.4) !important;
+        cursor: pointer;
+    }
+}
+.name, .id {
+    text-align: center;
+}

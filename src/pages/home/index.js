@@ -1,11 +1,11 @@
 import { Container } from "@material-ui/core";
-import { HeroBanner } from "../../components/home";
+import Sidebar from "../../components/shared/sidebar/Sidebar";
 import React from "react";
 
 export const Home = () => {
   return (
     <Container>
-      <HeroBanner />
+      <Sidebar />
     </Container>
   );
 };
