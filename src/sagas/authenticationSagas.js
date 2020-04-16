@@ -1,8 +1,8 @@
 import actionTypes from "../actions/actionTypes";
 import sagaTypes from "./sagaTypes";
-import { put, takeLatest, call } from "redux-saga/effects";
+import { put, takeLatest, call, takeLeading} from "redux-saga/effects";
 import { LoginUser } from '../api/authenticationApi';
-import { GetCustomerDetails, getMoltin } from '../helper/moltin'
+import { GetCustomerDetails, GetCustomerToken } from '../helper/moltin'
 
 const { authentication = {} } = actionTypes;
 const { login, logout } = authentication;
@@ -12,9 +12,14 @@ function* handleLogin({ payload }) {
   if (resp.status === 200) {
     localStorage.setItem('AccessToken', resp.data.access_token)
     yield put({ type: login, payload: { user: resp.data} });
-    window.location.href= '/home' // to fix
-    // const Moltin = getMoltin(resp.data.access_token);
-    // yield Moltin.Customers.Get(resp.data.access_token);
+
+    //window.location.href= '/home' // to fix
+    //const Moltin = getMoltin(resp.data.access_token);
+    const {data} = yield GetCustomerToken(user,pass);
+    console.log(data);
+    const customerdata =  yield GetCustomerDetails(data.id, data.token);
+    console.log(customerdata);
+    
   }
 }
 
@@ -23,7 +28,7 @@ function* handleLogout() {
 }
 
 function* loginSaga() {
-  yield takeLatest(sagaTypes.authentication.login, handleLogin);
+  yield takeLeading(sagaTypes.authentication.login, handleLogin);
 }
 
 function* logoutSaga() {
