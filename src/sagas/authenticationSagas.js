@@ -20,7 +20,7 @@ function* handleLogin({ payload }) {
     const customerdata =  yield GetCustomerDetails(data.id, data.token);
     console.log(customerdata);   
     
-    // yield put({type: setUserDetails, payload: { userDetails: customerdata}})
+    yield put({type: setUserDetails, payload: { userDetails: customerdata}})
   }
 }
 
