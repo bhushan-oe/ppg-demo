@@ -5,6 +5,7 @@ import {
   ListItem,
   ListItemText,
 } from "@material-ui/core/";
+import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 
@@ -25,7 +26,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Sidebar = () => {
+const mapStateToProps = ({ accounts, jobs }) => ({
+  accounts,
+  jobs,
+});
+
+export const Sidebar = connect(mapStateToProps)(() => {
   const classes = useStyles();
 
   return (
@@ -48,6 +54,6 @@ export const Sidebar = () => {
       </div>
     </Drawer>
   );
-};
+});
 
 export default Sidebar;

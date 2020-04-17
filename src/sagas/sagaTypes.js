@@ -4,8 +4,9 @@ export const sagaTypes = {
     logout: "AUTH_LOGOUT_SAGA",
   },
   accounts: {
-    getAccounts: "GET_ACCOUNTS_ACTION"
-  }
+    getAccounts: "GET_ACCOUNTS_SAGA",
+    setAccount: "SET_ACCOUNT_SAGA",
+  },
 };
 
 export default sagaTypes;

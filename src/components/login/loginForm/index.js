@@ -1,8 +1,8 @@
 import { Button, Grid, TextField } from "@material-ui/core";
 import React, { useCallback, useState } from "react";
 import { connect } from "react-redux";
-import "./styles.scss";
 import sagaTypes from "../../../sagas/sagaTypes";
+import "./styles.scss";
 
 const mapDispatchToProps = (dispatch) => {
   const { authentication = {} } = sagaTypes;
@@ -37,15 +37,15 @@ export const LoginForm = connect(
           <h1 className="login-header">Your Account</h1>
           <Grid item lg={6} xs={12}>
             <TextField
-            id="outlined-multiline-flexible"
-            label="Username"
-            multiline
-            rowsMax={4}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            variant="outlined"
-            className="username"
-          />
+              id="outlined-multiline-flexible"
+              label="Username"
+              multiline
+              rowsMax={4}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              variant="outlined"
+              className="username"
+            />
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -60,7 +60,12 @@ export const LoginForm = connect(
             />
           </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" color="primary" onClick={onFormSubmit} className="login-button">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={onFormSubmit}
+              className="login-button"
+            >
               Login
             </Button>
           </Grid>

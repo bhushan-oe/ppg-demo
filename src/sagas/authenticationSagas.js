@@ -6,6 +6,7 @@ import { GetCustomerDetails, getMoltin } from "../helper/moltin";
 
 const { authentication = {} } = actionTypes;
 const { login, logout } = authentication;
+
 function* handleLogin({ payload }) {
   const { user = null, pass = null } = payload;
   const resp = yield call(LoginUser, user, pass);
@@ -22,12 +23,7 @@ function* handleLogout() {
   yield put({ type: logout });
 }
 
-function* loginSaga() {
+export function* authenticationSaga() {
   yield takeLatest(sagaTypes.authentication.login, handleLogin);
-}
-
-function* logoutSaga() {
   yield takeLatest(sagaTypes.authentication.logout, handleLogout);
 }
-
-export { loginSaga, logoutSaga };

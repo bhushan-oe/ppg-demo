@@ -83,7 +83,6 @@ export const DashboardTabs = () => {
       >
         {renderTabs()}
       </Tabs>
-
       {renderTabsPanels()}
     </>
   );

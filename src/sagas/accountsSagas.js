@@ -1,19 +1,24 @@
 import actionTypes from "../actions/actionTypes";
+import sagaTypes from "./sagaTypes";
 import { put, takeLatest } from "redux-saga/effects";
 
 const { accounts = {} } = actionTypes;
 const { getAccounts } = accounts;
 
-function* getAccountDetails({payload: AccountData}) {
+function* getAccountDetails({ payload: AccountData }) {
   try {
-    yield put({ type: getAccounts, payload:{AccountData}});
-  } catch(err) {
+    yield put({ type: getAccounts, payload: { AccountData } });
+  } catch (err) {
     console.log(err);
   }
 }
-  
-function* accountsSaga() {
-  yield takeLatest("GET_ACCOUNT_SAGA_ACTION", getAccountDetails);
+
+function* setSelectedAccount({ selectedAccount }) {
+  return null;
 }
 
-export { accountsSaga };
+export function* accountsSaga() {
+  console.log();
+  yield takeLatest(sagaTypes.accounts.getAccounts, getAccountDetails);
+  yield takeLatest(sagaTypes.accounts.setAccount, setSelectedAccount);
+}

@@ -4,12 +4,16 @@ import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 import AccountJobCard from "../accountJobCard";
 import AccountData from "../AccountData";
+import sagaTypes from "../../../sagas/sagaTypes";
 
 function mapDispatchToProps(dispatch) {
+  const { accounts = {} } = sagaTypes;
+  const { getAccounts = "" } = accounts;
+
   return {
     getAccountsData: (AccountData) => {
       return dispatch({
-        type: "GET_ACCOUNT_SAGA_ACTION",
+        type: getAccounts,
         payload: { AccountData },
       });
     },

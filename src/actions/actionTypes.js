@@ -5,8 +5,7 @@ const actionTypes = {
   },
   accounts: {
     getAccounts: "GET_ACCOUNTS_ACTION",
-    getAccountsSaga: "GET_ACCOUNT_SAGA_ACTION"
-  }
+  },
 };
 
 export default actionTypes;

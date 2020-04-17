@@ -1,17 +1,20 @@
 import actionTypes from "../actions/actionTypes";
 
 export const initialState = {
-  AccountsData: null
+  AccountsData: null,
+  selectedAccount: null,
 };
 
 export default function accounts(state = initialState, action) {
   const { accounts = {} } = actionTypes;
-  const { getAccounts } = accounts;
-  const { type,payload } = action;
+  const { getAccounts, setAccount } = accounts;
+  const { type, payload } = action;
 
   switch (type) {
     case getAccounts:
-      return { ...state, AccountsData: payload.AccountData  };
+      return { ...state, AccountsData: payload.AccountData };
+    case setAccount:
+      return { ...state, selectedAccount: payload.selectedAccount };
     default:
       return state;
   }
