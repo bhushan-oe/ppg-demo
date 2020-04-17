@@ -6,6 +6,7 @@ import {
   GridListTileBar,
   IconButton,
   makeStyles,
+  Typography,
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
@@ -14,7 +15,7 @@ import { useHistory } from "react-router-dom";
 
 function mapDispatchToProps(dispatch) {
   const { jobs = {} } = sagaTypes;
-  const { getJobs = "", setJob = "" } = jobs;
+  const { getJobs = "", resetJob = "", setJob = "" } = jobs;
 
   return {
     getJobsData: (jobs) =>
@@ -22,15 +23,16 @@ function mapDispatchToProps(dispatch) {
         type: getJobs,
         payload: { jobs },
       }),
+    resetSelectedJob: () => dispatch({ type: resetJob }),
     setSelectedJob: (selectedJob, history) =>
       dispatch({ type: setJob, payload: { selectedJob, history } }),
   };
 }
 
 function mapStateToProps({ jobs, accounts }) {
-  return { 
+  return {
     JobsData: jobs.JobsData,
-    selectedAccount: accounts.selectedAccount
+    selectedAccount: accounts.selectedAccount,
   };
 }
 
@@ -55,33 +57,44 @@ const useStyles = makeStyles((theme) => ({
     color: "rgba(255, 255, 255, 0.75)",
   },
   gridList: {
-    width: '100%'
+    width: "100%",
   },
   gridListTile: {
-    width: '33% !important',
-    height: '250px !important'
-  }
+    width: "33% !important",
+    height: "250px !important",
+  },
 }));
 
 export const JobCardListing = connect(
   mapStateToProps,
   mapDispatchToProps
-)(({ JobsData, getJobsData, setSelectedJob, selectedAccount }) => {
-  const { relationships: { jobs} } = selectedAccount;
-  useEffect(() => {
-    getJobsData(jobs.data);
-  }, [getJobsData, jobs]);
+)(
+  ({
+    JobsData,
+    getJobsData,
+    resetSelectedJob,
+    setSelectedJob,
+    selectedAccount,
+  }) => {
+    const {
+      relationships: { jobs },
+    } = selectedAccount;
+    useEffect(() => {
+      resetSelectedJob();
+      getJobsData(jobs.data);
+    }, [getJobsData, jobs, resetSelectedJob]);
 
-  const classes = useStyles();
-  const history = useHistory();
+    const classes = useStyles();
+    const history = useHistory();
 
-  const showDashboardForJob = (jobid) => {
-    setSelectedJob(jobid, history);
-  };
-  const renderJobs = () =>
-    JobsData
-      && JobsData.map((item) => (
-          <GridListTile key={item.data.id} className={classes.gridListTile}>
+    const showDashboardForJob = (jobid) => {
+      setSelectedJob(jobid, history);
+    };
+
+    const renderJobs = () =>
+      Array.isArray(JobsData) && JobsData.length ? (
+        JobsData.map((item) => (
+          <GridListTile key={item.data.id}>
             <Box className={classes.box}>
               <Work className={classes.icon} />
               <GridListTileBar
@@ -97,13 +110,26 @@ export const JobCardListing = connect(
             </Box>
           </GridListTile>
         ))
+      ) : (
+        <Box>
+          <Typography variant="h6" noWrap className={classes.welcomeText}>
+            No jobs to display
+          </Typography>
+        </Box>
+      );
 
-  return (
-    <div className={classes.root}>
-      <GridList cellHeight={170} spacing={20} cols={4} className={classes.gridList}>
-        {renderJobs()}
-      </GridList>
-    </div>
-  );
-});
+    return (
+      <div className={classes.root}>
+        <GridList
+          cellHeight={170}
+          spacing={20}
+          cols={4}
+          className={classes.gridList}
+        >
+          {renderJobs()}
+        </GridList>
+      </div>
+    );
+  }
+);
 export default JobCardListing;

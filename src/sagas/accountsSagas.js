@@ -1,20 +1,37 @@
 import actionTypes from "../actions/actionTypes";
 import sagaTypes from "./sagaTypes";
 import { put, takeLatest, all } from "redux-saga/effects";
-import { GetOrganisationList } from '../helper/moltin'
+import { GetOrganisationList } from "../helper/moltin";
 
-const { accounts = {} } = actionTypes;
-const { getAccounts, setAccount } = accounts;
+const { accounts = {}, jobs = {} } = actionTypes;
+const { getAccounts, resetAccount, setAccount } = accounts;
+const { resetJob } = jobs;
 
 function* getAccountDetails({ payload }) {
-  const {AccountList: {AccountOrganizationIds} } = payload;
+  const {
+    AccountList: { AccountOrganizationIds },
+  } = payload;
   try {
     const customerdata = yield all(
-      AccountOrganizationIds.map(items => GetOrganisationList("organizations", items.id))
-    )
+      (
+        (Array.isArray(AccountOrganizationIds) &&
+          AccountOrganizationIds.length &&
+          AccountOrganizationIds) ||
+        []
+      ).map((items) => items && GetOrganisationList("organizations", items.id))
+    );
     yield put({ type: getAccounts, payload: { customerdata } });
-  }catch(err){
-    console.log(err)
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function* resetSelectedAccount() {
+  try {
+    yield put({ type: resetAccount });
+    yield put({ type: resetJob });
+  } catch (err) {
+    console.log(err);
   }
 }
 
@@ -31,4 +48,5 @@ function* setSelectedAccount({ payload = {} }) {
 export function* accountsSaga() {
   yield takeLatest(sagaTypes.accounts.getAccounts, getAccountDetails);
   yield takeLatest(sagaTypes.accounts.setAccount, setSelectedAccount);
+  yield takeLatest(sagaTypes.accounts.resetAccount, resetSelectedAccount);
 }

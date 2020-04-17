@@ -6,10 +6,12 @@ const actionTypes = {
   },
   accounts: {
     getAccounts: "GET_ACCOUNTS_ACTION",
+    resetAccount: "RESET_SELECTED_ACCOUNT_ACTION",
     setAccount: "SET_SELECTED_ACCOUNT_ACTION",
   },
   jobs: {
     getJobs: "GET_JOBS_ACTION",
+    resetJob: "RESET_SELECTED_JOB_ACTION",
     setJob: "SET_SELECTED_JOB_ACTION",
   },
 };

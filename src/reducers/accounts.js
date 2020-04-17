@@ -7,12 +7,14 @@ export const initialState = {
 
 export default function accounts(state = initialState, action) {
   const { accounts = {} } = actionTypes;
-  const { getAccounts, setAccount } = accounts;
+  const { getAccounts, resetAccount, setAccount } = accounts;
   const { type, payload } = action;
 
   switch (type) {
     case getAccounts:
       return { ...state, AccountsData: payload.customerdata };
+    case resetAccount:
+      return { ...state, selectedAccount: null };
     case setAccount:
       return { ...state, selectedAccount: payload.selectedAccount };
     default:

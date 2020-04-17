@@ -6,6 +6,7 @@ import {
   GridListTileBar,
   IconButton,
   makeStyles,
+  Typography,
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
@@ -14,24 +15,26 @@ import { useHistory } from "react-router-dom";
 
 function mapDispatchToProps(dispatch) {
   const { accounts = {} } = sagaTypes;
-  const { getAccounts = "", setAccount = "" } = accounts;
+  const { getAccounts = "", resetAccount = "", setAccount = "" } = accounts;
 
   return {
     getAccountsData: (AccountList) =>
       dispatch({
         type: getAccounts,
-        payload: { AccountList }
+        payload: { AccountList },
       }),
+    resetSelectedAccount: () => dispatch({ type: resetAccount }),
     setSelectedAccount: (selectedAccount, history) =>
       dispatch({ type: setAccount, payload: { selectedAccount, history } }),
   };
 }
 
 function mapStateToProps(state) {
-  return { 
+  return {
     AccountsData: state.accounts.AccountsData,
-    AccountOrganizationIds: state.authentication.userDetails.data.relationships.organizations.data
-    };
+    AccountOrganizationIds:
+      state.authentication.userDetails.data.relationships.organizations.data,
+  };
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexWrap: "wrap",
     flexGrow: 1,
-    width: '100%'
+    width: "100%",
   },
   box: {
     textAlign: "center",
@@ -47,9 +50,8 @@ const useStyles = makeStyles((theme) => ({
   },
   gridListTileBar: {
     textAlign: "left",
-    height: '100px',
+    height: "100px",
   },
-  
   icon: {
     fontSize: "165px",
     color: "rgba(255, 255, 255, 0.75)",
@@ -58,35 +60,40 @@ const useStyles = makeStyles((theme) => ({
     color: "rgba(255, 255, 255, 0.75)",
   },
   gridList: {
-    width: '100%'
+    width: "100%",
   },
   gridListTile: {
-    width: '33% !important',
-    height: '250px !important'
-  }
+    width: "33% !important",
+    height: "250px !important",
+  },
 }));
 
 export const AccountCardListing = connect(
   mapStateToProps,
   mapDispatchToProps
-)(({ AccountsData, getAccountsData, setSelectedAccount, AccountOrganizationIds }) => {
+)(
+  ({
+    AccountsData,
+    AccountOrganizationIds,
+    getAccountsData,
+    resetSelectedAccount,
+    setSelectedAccount,
+  }) => {
+    useEffect(() => {
+      resetSelectedAccount();
+      getAccountsData({ AccountOrganizationIds });
+    }, [AccountOrganizationIds, getAccountsData, resetSelectedAccount]);
 
-  useEffect(() => {
-    getAccountsData({
-      AccountOrganizationIds
-    });
-  }, []);
+    const classes = useStyles();
+    const history = useHistory();
 
-  const classes = useStyles();
-  const history = useHistory();
+    const showJobsForAccount = (accountid) => {
+      setSelectedAccount(accountid, history);
+    };
 
-  const showJobsForAccount = (accountid) => {
-    setSelectedAccount(accountid, history);
-  };
-
-  const renderAccounts = () =>
-    AccountsData
-      ? AccountsData.map((item) => (
+    const renderAccounts = () =>
+      Array.isArray(AccountsData) && AccountsData.length ? (
+        AccountsData.map((item) => (
           <GridListTile key={item.data.name} className={classes.gridListTile}>
             <Box className={classes.box}>
               <AccountBox className={classes.icon} />
@@ -95,24 +102,34 @@ export const AccountCardListing = connect(
                 subtitle={<span>{item.data.number}</span>}
                 className={classes.gridListTileBar}
                 actionIcon={
-                  <IconButton
-                    onClick={() => showJobsForAccount(item.data)}
-                  >
+                  <IconButton onClick={() => showJobsForAccount(item.data)}>
                     <CheckCircle className={classes.actionIcon} />
                   </IconButton>
                 }
               />
             </Box>
-          </GridListTile>          
+          </GridListTile>
         ))
-      : null;
+      ) : (
+        <Box>
+          <Typography variant="h6" noWrap className={classes.welcomeText}>
+            No accounts to display
+          </Typography>
+        </Box>
+      );
 
-  return (
-    <div className={classes.root}>
-      <GridList cellHeight={170} spacing={20} cols={4} className={classes.gridList}>
-        {renderAccounts()}
-      </GridList>
-    </div>
-  );
-});
+    return (
+      <div className={classes.root}>
+        <GridList
+          cellHeight={170}
+          spacing={20}
+          cols={4}
+          className={classes.gridList}
+        >
+          {renderAccounts()}
+        </GridList>
+      </div>
+    );
+  }
+);
 export default AccountCardListing;
