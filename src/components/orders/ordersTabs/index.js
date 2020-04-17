@@ -1,6 +1,7 @@
-import { APPROVER_ITEMS, BUYER_ITEMS } from "./dashboardRoles";
+import { APPROVER_ITEMS, BUYER_ITEMS } from "./ordersRoles";
 import { Box, Tab, Tabs, Typography } from "@material-ui/core";
 import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -33,7 +34,7 @@ const getTabItems = (role) => {
     : BUYER_ITEMS;
 };
 
-export const DashboardTabs = () => {
+export const OrdersTabs = () => {
   const currentTabItems = getTabItems("approver") || [];
   const firstTab = [...currentTabItems].shift();
   const { tabValue } = firstTab || {};
@@ -72,7 +73,7 @@ export const DashboardTabs = () => {
   };
 
   return (
-    <>
+    <Router>
       <Tabs
         value={value}
         indicatorColor="primary"
@@ -84,8 +85,8 @@ export const DashboardTabs = () => {
         {renderTabs()}
       </Tabs>
       {renderTabsPanels()}
-    </>
+    </Router>
   );
 };
 
-export default DashboardTabs;
+export default OrdersTabs;

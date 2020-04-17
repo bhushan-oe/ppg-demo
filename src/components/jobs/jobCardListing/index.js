@@ -89,7 +89,7 @@ export const JobCardListing = connect(
     const classes = useStyles();
     const history = useHistory();
 
-    const showDashboardForJob = (jobid) => {
+    const showOrdersForJob = (jobid) => {
       setSelectedJob(jobid, history);
     };
 
@@ -104,7 +104,7 @@ export const JobCardListing = connect(
                 subtitle={<span>{item.data.number}</span>}
                 className={classes.gridListTileBar}
                 actionIcon={
-                  <IconButton onClick={() => showDashboardForJob(item.data)}>
+                  <IconButton onClick={() => showOrdersForJob(item.data)}>
                     <CheckCircle className={classes.actionIcon} />
                   </IconButton>
                 }
