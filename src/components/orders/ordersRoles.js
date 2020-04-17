@@ -1,26 +1,32 @@
+import {
+  ORDER_STATUS_APPROVAL_DONE,
+  ORDER_STATUS_APPROVAL_PENDING,
+  ORDER_STATUS_ORDERS_APPROVED,
+  ORDER_STATUS_ORDERS_PENDING,
+} from "./ordersStatus";
 import { OrdersList, PlaceOrder } from "./";
 import React from "react";
 
 const TAB_ITEMS = {
-  ordersApproved: {
-    tabComponent: () => <OrdersList filter="ordersApproved" />,
+  [ORDER_STATUS_ORDERS_APPROVED]: {
+    tabComponent: () => <OrdersList filter={ORDER_STATUS_ORDERS_APPROVED} />,
     tabLabel: "Approved Orders",
-    tabValue: "ordersApproved",
+    tabValue: ORDER_STATUS_ORDERS_APPROVED,
   },
-  ordersPending: {
-    tabComponent: () => <OrdersList filter="ordersPending" />,
+  [ORDER_STATUS_ORDERS_PENDING]: {
+    tabComponent: () => <OrdersList filter={ORDER_STATUS_ORDERS_PENDING} />,
     tabLabel: "Pending Orders",
-    tabValue: "ordersPending",
+    tabValue: ORDER_STATUS_ORDERS_PENDING,
   },
-  approvalPending: {
-    tabComponent: () => <OrdersList filter="approvalPending" />,
+  [ORDER_STATUS_APPROVAL_PENDING]: {
+    tabComponent: () => <OrdersList filter={ORDER_STATUS_APPROVAL_PENDING} />,
     tabLabel: "Orders Waiting for Approval",
-    tabValue: "approvalPending",
+    tabValue: ORDER_STATUS_APPROVAL_PENDING,
   },
-  approvalDone: {
-    tabComponent: () => <OrdersList filter="approvalDone" />,
+  [ORDER_STATUS_APPROVAL_DONE]: {
+    tabComponent: () => <OrdersList filter={ORDER_STATUS_APPROVAL_DONE} />,
     tabLabel: "Orders Approved",
-    tabValue: "approvalDone",
+    tabValue: ORDER_STATUS_APPROVAL_DONE,
   },
   placeOrder: {
     tabComponent: () => <PlaceOrder />,
@@ -30,13 +36,13 @@ const TAB_ITEMS = {
 };
 
 export const CUSTOMER_ITEMS = [
-  TAB_ITEMS.ordersApproved,
-  TAB_ITEMS.ordersPending,
+  TAB_ITEMS[ORDER_STATUS_ORDERS_APPROVED],
+  TAB_ITEMS[ORDER_STATUS_ORDERS_PENDING],
   TAB_ITEMS.placeOrder,
 ];
 
 export const APPROVER_ITEMS = [
-  TAB_ITEMS.approvalPending,
-  TAB_ITEMS.approvalDone,
+  TAB_ITEMS[ORDER_STATUS_APPROVAL_PENDING],
+  TAB_ITEMS[ORDER_STATUS_APPROVAL_DONE],
   TAB_ITEMS.placeOrder,
 ];

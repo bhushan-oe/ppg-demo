@@ -1,3 +1,4 @@
+export * from "./orderApproveButton";
 export * from "./orderDetails";
 export * from "./ordersList";
 export * from "./ordersTabs";

@@ -2,7 +2,7 @@ import { Box, Container, makeStyles, Typography } from "@material-ui/core";
 import React, { useCallback, useEffect } from "react";
 import { connect } from "react-redux";
 import sagaTypes from "../../../sagas/sagaTypes";
-import orderDetails from "../orderDetails";
+import OrderDetails from "../orderDetails";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = ({ orders }) => ({ orders });
+const mapStateToProps = ({ orders }) => ({ ordersList: orders.ordersList });
 
 const mapDispatchToProps = (dispatch) => {
   const { orders = {} } = sagaTypes;
@@ -41,11 +41,10 @@ export const OrdersList = connect(
   mapDispatchToProps
 )(
   ({
-    authentication = {},
     clearOrders = () => {},
     filter,
     getOrdersList = () => {},
-    orders = [],
+    ordersList = [],
   }) => {
     const classes = useStyles();
     const initializeOrders = useCallback(() => {
@@ -55,11 +54,16 @@ export const OrdersList = connect(
 
     useEffect(initializeOrders, []);
 
-    const renderOrders = () => {
-      return Array.isArray(orders) && orders.length ? (
-        orders.map((order, index) => {
-          return <orderDetails order={order} />;
-        })
+    const renderOrdersList = () => {
+      return Array.isArray(ordersList) && ordersList.length ? (
+        ordersList.map((order, index) => (
+          <OrderDetails
+            filter={filter}
+            index={index}
+            key={`order-${index}`}
+            order={order}
+          />
+        ))
       ) : (
         <Box className={classes.box}>
           <Typography className={classes.noList}>No orders to list</Typography>
@@ -67,7 +71,7 @@ export const OrdersList = connect(
       );
     };
 
-    return <Container>{renderOrders()}</Container>;
+    return <Container>{renderOrdersList()}</Container>;
   }
 );
 

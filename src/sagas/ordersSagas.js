@@ -1,8 +1,14 @@
+import { GetFlowEntries, GetFlowEntry } from "../helper/moltin";
+import { getUserDetails, getSelectedJob } from "./selectors";
+import {
+  ORDER_STATUS_APPROVAL_DONE,
+  ORDER_STATUS_APPROVAL_PENDING,
+  ORDER_STATUS_ORDERS_APPROVED,
+  ORDER_STATUS_ORDERS_PENDING,
+} from "../components/orders/ordersStatus";
+import { put, select, takeLatest } from "redux-saga/effects";
 import actionTypes from "../actions/actionTypes";
 import sagaTypes from "./sagaTypes";
-import { getUserDetails, getSelectedJob } from "./selectors";
-import { put, select, takeLatest } from "redux-saga/effects";
-import { GetFlowEntries } from "../helper/moltin";
 
 const { orders = {} } = actionTypes;
 const { clearOrdersList, setOrdersList } = orders;
@@ -20,13 +26,13 @@ const generateFlowSlug = (
   const ordersPendingSlug = `${id}_orders_pending_f`;
 
   switch (filter) {
-    case "approvalDone":
+    case ORDER_STATUS_APPROVAL_DONE:
       const { orders_approved_f = "" } = selectedJob;
       return (isApprover && orders_approved_f) || ordersApprovedSlug;
-    case "approvalPending":
+    case ORDER_STATUS_APPROVAL_PENDING:
       const { orders_pending_f = "" } = selectedJob;
       return (isApprover && orders_pending_f) || ordersPendingSlug;
-    case "ordersPending":
+    case ORDER_STATUS_ORDERS_PENDING:
       return ordersPendingSlug;
     default:
       return ordersApprovedSlug;
@@ -43,7 +49,7 @@ function* clearOrders() {
 
 function* getOrders({ payload }) {
   try {
-    const { filter = "ordersApproved" } = payload;
+    const { filter = ORDER_STATUS_ORDERS_APPROVED } = payload;
     const userDetails = yield select(getUserDetails);
     const selectedJob = yield select(getSelectedJob);
     const { data = {} } = userDetails || {};
@@ -53,9 +59,25 @@ function* getOrders({ payload }) {
     }
     const slug = generateFlowSlug(filter, type, id, selectedJob);
     const ordersData = yield GetFlowEntries(slug, token);
-    const { data: orders = [] } = ordersData;
+    const { data: ordersEntries = [] } = ordersData;
 
-    yield { put: setOrdersList, payload: { orders } };
+    // const orders = yield ordersEntries.map((entry) => {
+    //   const { id: orderSlugId } = entry;
+    //   const orderData = GetFlowEntry(orderSlugId, token);
+
+    //   return orderData;
+    // });
+
+    const orders = [
+      { id: 1 },
+      { id: 2 },
+      { id: 3 },
+      { id: 4 },
+      { id: 5 },
+      { id: 6 },
+    ];
+
+    yield put({ type: setOrdersList, payload: { orders } });
   } catch (err) {
     console.log(err);
   }

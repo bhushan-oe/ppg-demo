@@ -1,19 +1,20 @@
 import actionTypes from "../actions/actionTypes";
 
 export const initialState = {
-  orders: [],
+  ordersList: [],
 };
 
 export default function accounts(state = initialState, action) {
   const { orders = {} } = actionTypes;
-  const { clearOrdersList, getOrdersList } = orders;
+  const { clearOrdersList, setOrdersList } = orders;
   const { type, payload } = action;
 
   switch (type) {
     case clearOrdersList:
-      return { ...state, orders: [] };
-    case getOrdersList:
-      return { ...state, orders: payload };
+      return { ...state, ordersList: [] };
+    case setOrdersList:
+      const { orders = [] } = payload;
+      return { ...state, ordersList: orders };
     default:
       return state;
   }
