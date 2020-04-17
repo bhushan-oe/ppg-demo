@@ -45,15 +45,21 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   box: {
+    display: "flex",
+    flexGrow: 1,
+    alignItems: "center",
+    justifyContent: "center",
     textAlign: "center",
     backgroundColor: "#ccc",
+    width: "100%",
+    height: "100%",
   },
   gridListTileBar: {
     textAlign: "left",
     height: "100px",
   },
   icon: {
-    fontSize: "165px",
+    fontSize: "245px",
     color: "rgba(255, 255, 255, 0.75)",
   },
   actionIcon: {
@@ -61,10 +67,6 @@ const useStyles = makeStyles((theme) => ({
   },
   gridList: {
     width: "100%",
-  },
-  gridListTile: {
-    width: "33% !important",
-    height: "250px !important",
   },
 }));
 
@@ -94,7 +96,7 @@ export const AccountCardListing = connect(
     const renderAccounts = () =>
       Array.isArray(AccountsData) && AccountsData.length ? (
         AccountsData.map((item) => (
-          <GridListTile key={item.data.name} className={classes.gridListTile}>
+          <GridListTile key={item.data.name}>
             <Box className={classes.box}>
               <AccountBox className={classes.icon} />
               <GridListTileBar
@@ -121,9 +123,9 @@ export const AccountCardListing = connect(
     return (
       <div className={classes.root}>
         <GridList
-          cellHeight={170}
+          cellHeight={250}
           spacing={20}
-          cols={4}
+          cols={3}
           className={classes.gridList}
         >
           {renderAccounts()}

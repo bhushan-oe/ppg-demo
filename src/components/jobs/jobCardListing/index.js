@@ -43,14 +43,20 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   box: {
+    display: "flex",
+    flexGrow: 1,
+    alignItems: "center",
+    justifyContent: "center",
     textAlign: "center",
     backgroundColor: "#ccc",
+    width: "100%",
+    height: "100%",
   },
   gridListTileBar: {
     textAlign: "left",
   },
   icon: {
-    fontSize: "165px",
+    fontSize: "245px",
     color: "rgba(255, 255, 255, 0.75)",
   },
   actionIcon: {
@@ -58,10 +64,6 @@ const useStyles = makeStyles((theme) => ({
   },
   gridList: {
     width: "100%",
-  },
-  gridListTile: {
-    width: "33% !important",
-    height: "250px !important",
   },
 }));
 
@@ -121,9 +123,9 @@ export const JobCardListing = connect(
     return (
       <div className={classes.root}>
         <GridList
-          cellHeight={170}
+          cellHeight={250}
           spacing={20}
-          cols={4}
+          cols={3}
           className={classes.gridList}
         >
           {renderJobs()}
