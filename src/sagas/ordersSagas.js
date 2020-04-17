@@ -59,23 +59,7 @@ function* getOrders({ payload }) {
     }
     const slug = generateFlowSlug(filter, type, id, selectedJob);
     const ordersData = yield GetFlowEntries(slug, token);
-    const { data: ordersEntries = [] } = ordersData;
-
-    // const orders = yield ordersEntries.map((entry) => {
-    //   const { id: orderSlugId } = entry;
-    //   const orderData = GetFlowEntry(orderSlugId, token);
-
-    //   return orderData;
-    // });
-
-    const orders = [
-      { id: 1 },
-      { id: 2 },
-      { id: 3 },
-      { id: 4 },
-      { id: 5 },
-      { id: 6 },
-    ];
+    const { data: orders = [] } = ordersData;
 
     yield put({ type: setOrdersList, payload: { orders } });
   } catch (err) {
