@@ -89,8 +89,8 @@ export const AccountCardListing = connect(
     const classes = useStyles();
     const history = useHistory();
 
-    const showJobsForAccount = (accountid) => {
-      setSelectedAccount(accountid, history);
+    const showJobsForAccount = (account) => {
+      setSelectedAccount(account, history);
     };
 
     const renderAccounts = () =>

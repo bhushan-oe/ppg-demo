@@ -1,7 +1,8 @@
-import { APPROVER_ITEMS, BUYER_ITEMS } from "../ordersRoles";
+import { APPROVER_ITEMS, CUSTOMER_ITEMS } from "../ordersRoles";
 import { Box, Tab, Tabs, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import { BrowserRouter as Router, NavLink, Route } from "react-router-dom";
+import { connect } from "react-redux";
 
 const BASENAME = "/orders";
 
@@ -33,67 +34,73 @@ const getTabItems = (role) => {
   return ((typeof role === "string" && role) || "").toString().toLowerCase() ===
     "approver"
     ? APPROVER_ITEMS
-    : BUYER_ITEMS;
+    : CUSTOMER_ITEMS;
 };
 
-export const OrdersTabs = () => {
-  const role = "";
-  const currentTabItems = getTabItems(role) || [];
-  const firstTab = [...currentTabItems].shift();
-  const { tabValue } = firstTab || {};
-  const [value, setValue] = useState(tabValue);
+const mapStateToProps = ({ authentication }) => ({ authentication });
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+export const OrdersTabs = connect(mapStateToProps)(
+  ({ authentication = {} }) => {
+    const { userDetails = {} } = authentication || {};
+    const { data = {} } = userDetails || {};
+    const { type = "customer" } = data || {};
+    const currentTabItems = getTabItems(type) || [];
+    const firstTab = [...currentTabItems].shift();
+    const { tabValue } = firstTab || {};
+    const [value, setValue] = useState(tabValue);
 
-  const renderTabs = () => {
-    return currentTabItems.map((tabItem, index) => {
-      const { tabLabel, tabValue } = tabItem;
+    const handleChange = (event, newValue) => {
+      setValue(newValue);
+    };
 
-      return (
-        <Tab
-          component={NavLink}
-          key={`tab-${index}`}
-          value={tabValue}
-          label={tabLabel}
-          to={`/${tabValue}`}
-          wrapped
-          {...a11yProps(tabValue)}
-        />
-      );
-    });
-  };
+    const renderTabs = () => {
+      return currentTabItems.map((tabItem, index) => {
+        const { tabLabel, tabValue } = tabItem;
 
-  const renderTabsPanels = () => {
-    return currentTabItems.map((tabItem, index) => {
-      const { tabComponent, tabValue } = tabItem;
+        return (
+          <Tab
+            component={NavLink}
+            key={`tab-${index}`}
+            value={tabValue}
+            label={tabLabel}
+            to={`/${tabValue}`}
+            wrapped
+            {...a11yProps(tabValue)}
+          />
+        );
+      });
+    };
 
-      return (
-        <TabPanel key={index} value={value} index={tabValue}>
-          <Route path={`/${tabValue}`} exact>
-            {tabComponent()}
-          </Route>
-        </TabPanel>
-      );
-    });
-  };
+    const renderTabsPanels = () => {
+      return currentTabItems.map((tabItem, index) => {
+        const { tabComponent, tabValue } = tabItem;
 
-  return (
-    <Router basename={BASENAME}>
-      <Tabs
-        value={value}
-        indicatorColor="primary"
-        textColor="primary"
-        onChange={handleChange}
-        aria-label="wrapped label tabs example"
-        variant="fullWidth"
-      >
-        {renderTabs()}
-      </Tabs>
-      {renderTabsPanels()}
-    </Router>
-  );
-};
+        return (
+          <TabPanel key={index} value={value} index={tabValue}>
+            <Route path={`/${tabValue}`} exact>
+              {tabComponent()}
+            </Route>
+          </TabPanel>
+        );
+      });
+    };
+
+    return (
+      <Router basename={BASENAME}>
+        <Tabs
+          value={value}
+          indicatorColor="primary"
+          textColor="primary"
+          onChange={handleChange}
+          aria-label="wrapped label tabs example"
+          variant="fullWidth"
+        >
+          {renderTabs()}
+        </Tabs>
+        {renderTabsPanels()}
+      </Router>
+    );
+  }
+);
 
 export default OrdersTabs;

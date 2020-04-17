@@ -45,7 +45,7 @@ function* setSelectedAccount({ payload = {} }) {
   }
 }
 
-export function* accountsSaga() {
+export function* accountsSagas() {
   yield takeLatest(sagaTypes.accounts.getAccounts, getAccountDetails);
   yield takeLatest(sagaTypes.accounts.setAccount, setSelectedAccount);
   yield takeLatest(sagaTypes.accounts.resetAccount, resetSelectedAccount);
