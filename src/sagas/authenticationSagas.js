@@ -1,25 +1,24 @@
 import actionTypes from "../actions/actionTypes";
 import sagaTypes from "./sagaTypes";
-import { put, takeLatest, call } from "redux-saga/effects";
-import { LoginUser } from "../api/authenticationApi";
-import { GetCustomerDetails, getMoltin } from "../helper/moltin";
+import { put, takeLatest, call, takeLeading} from "redux-saga/effects";
+import { LoginUser } from '../api/authenticationApi';
+import { GetCustomerDetails, GetCustomerToken } from '../helper/moltin'
 
 const { authentication = {} } = actionTypes;
 const { login, logout } = authentication;
 
 function* handleLogin({ payload }) {
-  try {
-    const { history, user = null, pass = null } = payload;
-    const resp = yield call(LoginUser, user, pass);
-    if (resp.status === 200) {
-      localStorage.setItem("AccessToken", resp.data.access_token);
-      yield put({ type: login, payload: { user: resp.data } });
-      history.push("/accounts");
-      //const Moltin = getMoltin(resp.data.access_token);
-      //yield call(GetCustomerDetails(resp.data.access_token, Moltin));
-    }
-  } catch (err) {
-    console.log(err);
+  const { history, user = null, pass = null } = payload;
+  const resp = yield call(LoginUser,user, pass)
+  if (resp.status === 200) {
+    localStorage.setItem('AccessToken', resp.data.access_token)
+    yield put({ type: login, payload: { user: resp.data} });
+    history.push("/accounts");
+
+    const {data} = yield GetCustomerToken(user,pass);
+    console.log(data);
+    const customerdata =  yield GetCustomerDetails(data.id, data.token);
+    console.log(customerdata);    
   }
 }
 
@@ -27,7 +26,12 @@ function* handleLogout() {
   yield put({ type: logout });
 }
 
-export function* authenticationSaga() {
-  yield takeLatest(sagaTypes.authentication.login, handleLogin);
+function* loginSaga() {
+  yield takeLeading(sagaTypes.authentication.login, handleLogin);
+}
+
+function* logoutSaga() {
   yield takeLatest(sagaTypes.authentication.logout, handleLogout);
 }
+
+export { loginSaga, logoutSaga };
