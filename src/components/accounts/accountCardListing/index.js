@@ -1,4 +1,4 @@
-import { AccountBox, CheckCircle } from "@material-ui/icons";
+import { AccountBox, CheckCircle, AirlineSeatLegroomNormal } from "@material-ui/icons";
 import {
   Box,
   GridList,
@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexWrap: "wrap",
     flexGrow: 1,
+    width: '100%'
   },
   box: {
     textAlign: "center",
@@ -47,7 +48,9 @@ const useStyles = makeStyles((theme) => ({
   },
   gridListTileBar: {
     textAlign: "left",
+    height: '100px',
   },
+  
   icon: {
     fontSize: "165px",
     color: "rgba(255, 255, 255, 0.75)",
@@ -55,6 +58,10 @@ const useStyles = makeStyles((theme) => ({
   actionIcon: {
     color: "rgba(255, 255, 255, 0.75)",
   },
+  gridList: {
+    width: '33% !important',
+    height: '250px !important'
+  }
 }));
 
 export const AccountCardListing = connect(
@@ -78,7 +85,7 @@ export const AccountCardListing = connect(
   const renderAccounts = () =>
     AccountsData
       ? AccountsData.map((item) => (
-          <GridListTile key={item.data.name}>
+          <GridListTile key={item.data.name} className={classes.gridList}>
             <Box className={classes.box}>
               <AccountBox className={classes.icon} />
               <GridListTileBar
