@@ -8,14 +8,18 @@ const { authentication = {} } = actionTypes;
 const { login, logout } = authentication;
 
 function* handleLogin({ payload }) {
-  const { user = null, pass = null } = payload;
-  const resp = yield call(LoginUser, user, pass);
-  if (resp.status === 200) {
-    localStorage.setItem("AccessToken", resp.data.access_token);
-    yield put({ type: login, payload: { user: resp.data } });
-    window.location.href = "/accounts"; // to fix
-    //const Moltin = getMoltin(resp.data.access_token);
-    //yield call(GetCustomerDetails(resp.data.access_token, Moltin));
+  try {
+    const { history, user = null, pass = null } = payload;
+    const resp = yield call(LoginUser, user, pass);
+    if (resp.status === 200) {
+      localStorage.setItem("AccessToken", resp.data.access_token);
+      yield put({ type: login, payload: { user: resp.data } });
+      history.push("/accounts");
+      //const Moltin = getMoltin(resp.data.access_token);
+      //yield call(GetCustomerDetails(resp.data.access_token, Moltin));
+    }
+  } catch (err) {
+    console.log(err);
   }
 }
 

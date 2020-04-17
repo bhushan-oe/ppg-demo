@@ -2,6 +2,7 @@ import { Button, Grid, TextField } from "@material-ui/core";
 import React, { useCallback, useState } from "react";
 import { connect } from "react-redux";
 import sagaTypes from "../../../sagas/sagaTypes";
+import { useHistory } from "react-router-dom";
 import "./styles.scss";
 
 const mapDispatchToProps = (dispatch) => {
@@ -9,7 +10,8 @@ const mapDispatchToProps = (dispatch) => {
   const { login } = authentication;
 
   return {
-    doLogin: (user, pass) => dispatch({ type: login, payload: { user, pass } }),
+    doLogin: (user, pass, history) =>
+      dispatch({ type: login, payload: { user, pass, history } }),
   };
 };
 
@@ -19,15 +21,16 @@ export const LoginForm = connect(
 )(({ doLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
 
   const onFormSubmit = useCallback(
     (evt) => {
       evt.preventDefault();
       evt.stopPropagation();
 
-      doLogin(username, password);
+      doLogin(username, password, history);
     },
-    [password, username, doLogin]
+    [password, username, history, doLogin]
   );
 
   return (

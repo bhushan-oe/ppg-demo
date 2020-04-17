@@ -3,7 +3,7 @@ import sagaTypes from "./sagaTypes";
 import { put, takeLatest } from "redux-saga/effects";
 
 const { accounts = {} } = actionTypes;
-const { getAccounts } = accounts;
+const { getAccounts, setAccount } = accounts;
 
 function* getAccountDetails({ payload: AccountData }) {
   try {
@@ -13,12 +13,17 @@ function* getAccountDetails({ payload: AccountData }) {
   }
 }
 
-function* setSelectedAccount({ selectedAccount }) {
-  return null;
+function* setSelectedAccount({ payload = {} }) {
+  try {
+    const { history, selectedAccount = null } = payload;
+    yield put({ type: setAccount, payload: { selectedAccount } });
+    history.push("/jobs");
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export function* accountsSaga() {
-  console.log();
   yield takeLatest(sagaTypes.accounts.getAccounts, getAccountDetails);
   yield takeLatest(sagaTypes.accounts.setAccount, setSelectedAccount);
 }

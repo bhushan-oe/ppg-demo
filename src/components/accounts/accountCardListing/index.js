@@ -1,27 +1,30 @@
+import { AccountBox, CheckCircle } from "@material-ui/icons";
 import {
   Box,
   GridList,
   GridListTile,
   GridListTileBar,
+  IconButton,
   makeStyles,
 } from "@material-ui/core";
-import { AccountBox } from "@material-ui/icons";
 import AccountData from "../AccountData";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import sagaTypes from "../../../sagas/sagaTypes";
+import { useHistory } from "react-router-dom";
 
 function mapDispatchToProps(dispatch) {
   const { accounts = {} } = sagaTypes;
-  const { getAccounts = "" } = accounts;
+  const { getAccounts = "", setAccount = "" } = accounts;
 
   return {
-    getAccountsData: (AccountData) => {
-      return dispatch({
+    getAccountsData: (AccountData) =>
+      dispatch({
         type: getAccounts,
         payload: { AccountData },
-      });
-    },
+      }),
+    setSelectedAccount: (selectedAccount, history) =>
+      dispatch({ type: setAccount, payload: { selectedAccount, history } }),
   };
 }
 
@@ -44,37 +47,45 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     fontSize: "165px",
-    color: "rgba(255, 255, 255, 0.54)",
+    color: "rgba(255, 255, 255, 0.75)",
+  },
+  actionIcon: {
+    color: "rgba(255, 255, 255, 0.75)",
   },
 }));
 
-export const AccountJobCardListing = connect(
+export const AccountCardListing = connect(
   mapStateToProps,
   mapDispatchToProps
-)(({ AccountsData, getAccountsData }) => {
+)(({ AccountsData, getAccountsData, setSelectedAccount }) => {
   useEffect(() => {
     getAccountsData(AccountData);
-  }, []);
+  }, [getAccountsData]);
 
   const classes = useStyles();
+  const history = useHistory();
 
   const showJobsForAccount = (accountid) => {
-    console.log("here", accountid);
+    setSelectedAccount(accountid, history);
   };
 
   const renderAccounts = () =>
     AccountsData
       ? AccountsData.AccountData.map((item) => (
-          <GridListTile
-            onClick={() => showJobsForAccount(item.accountid)}
-            key={item.accountid}
-          >
+          <GridListTile key={item.accountid}>
             <Box className={classes.box}>
               <AccountBox className={classes.icon} />
               <GridListTileBar
                 title={item.accountname}
                 subtitle={<span>{item.accountid}</span>}
                 className={classes.gridListTileBar}
+                actionIcon={
+                  <IconButton
+                    onClick={() => showJobsForAccount(item.accountid)}
+                  >
+                    <CheckCircle className={classes.actionIcon} />
+                  </IconButton>
+                }
               />
             </Box>
           </GridListTile>
@@ -89,4 +100,4 @@ export const AccountJobCardListing = connect(
     </div>
   );
 });
-export default AccountJobCardListing;
+export default AccountCardListing;
