@@ -7,6 +7,7 @@ import "./mainContainer.scss";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    marginBottom: '80px'
   },
   content: {
     flexGrow: 1,
