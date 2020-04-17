@@ -13,12 +13,12 @@ function* handleLogin({ payload }) {
   if (resp.status === 200) {
     localStorage.setItem('AccessToken', resp.data.access_token)
     yield put({ type: login, payload: { user: resp.data} });
-    history.push("/accounts");
 
     const {data} = yield GetCustomerToken(user,pass);
     const customerdata =  yield GetCustomerDetails(data.id, data.token);
     
     yield put({type: setUserDetails, payload: { userDetails: customerdata}})
+    history.push("/accounts");
   }
 }
 

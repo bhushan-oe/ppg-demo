@@ -12,7 +12,7 @@ export default function accounts(state = initialState, action) {
 
   switch (type) {
     case getAccounts:
-      return { ...state, AccountsData: payload.customerdata.data };
+      return { ...state, AccountsData: payload.customerdata };
     case setAccount:
       return { ...state, selectedAccount: payload.selectedAccount };
     default:

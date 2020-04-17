@@ -18,10 +18,10 @@ function mapDispatchToProps(dispatch) {
   const { getAccounts = "", setAccount = "" } = accounts;
 
   return {
-    getAccountsData: ({slug, entryId}) =>
+    getAccountsData: (AccountList) =>
       dispatch({
         type: getAccounts,
-        payload: { slug, entryId },
+        payload: { AccountList }
       }),
     setSelectedAccount: (selectedAccount, history) =>
       dispatch({ type: setAccount, payload: { selectedAccount, history } }),
@@ -29,8 +29,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log("state ---", state);
-  return { AccountsData: state.accounts.AccountsData };
+  return { 
+    AccountsData: state.accounts.AccountsData,
+    AccountOrganizationIds: state.authentication.userDetails.data.relationships.organizations.data
+    };
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -58,12 +60,11 @@ const useStyles = makeStyles((theme) => ({
 export const AccountCardListing = connect(
   mapStateToProps,
   mapDispatchToProps
-)(({ AccountsData, getAccountsData, setSelectedAccount }) => {
+)(({ AccountsData, getAccountsData, setSelectedAccount, AccountOrganizationIds }) => {
 
   useEffect(() => {
     getAccountsData({
-      slug : "organizations",
-      entryId : "c5458b3a-12a9-4c2d-b6ec-344a2a0436c6"
+      AccountOrganizationIds
     });
   }, []);
 
@@ -76,26 +77,25 @@ export const AccountCardListing = connect(
 
   const renderAccounts = () =>
     AccountsData
-      ? //AccountsData.AccountData.map((item) => (
-          <GridListTile key={AccountsData.name}>
+      ? AccountsData.map((item) => (
+          <GridListTile key={item.data.name}>
             <Box className={classes.box}>
               <AccountBox className={classes.icon} />
               <GridListTileBar
-                title={AccountsData.name}
-                subtitle={<span>{AccountsData.number}</span>}
+                title={item.data.name}
+                subtitle={<span>{item.data.number}</span>}
                 className={classes.gridListTileBar}
                 actionIcon={
                   <IconButton
-                    onClick={() => showJobsForAccount(AccountsData.id)}
+                    onClick={() => showJobsForAccount(item.data)}
                   >
                     <CheckCircle className={classes.actionIcon} />
                   </IconButton>
                 }
               />
             </Box>
-          </GridListTile>
-          
-        //))
+          </GridListTile>          
+        ))
       : null;
 
   return (

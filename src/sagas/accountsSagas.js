@@ -1,20 +1,22 @@
 import actionTypes from "../actions/actionTypes";
 import sagaTypes from "./sagaTypes";
-import { put, takeLatest } from "redux-saga/effects";
+import { put, takeLatest, all } from "redux-saga/effects";
 import { GetOrganisationList } from '../helper/moltin'
 
 const { accounts = {} } = actionTypes;
 const { getAccounts, setAccount } = accounts;
 
 function* getAccountDetails({ payload }) {
-  const {slug , entryId} = payload;
+  const {AccountList: {AccountOrganizationIds} } = payload;
   try {
-    //yield put({ type: getAccounts, payload: { AccountData } });
-    const customerdata =  yield GetOrganisationList(slug, entryId);
-    console.log("customer ---", customerdata);
+    const customerdata = yield all(
+      AccountOrganizationIds.map(items => {
+        return GetOrganisationList("organizations", items.id);
+      })
+    )
     yield put({ type: getAccounts, payload: { customerdata } });
-  } catch (err) {
-    console.log(err);
+  }catch(err){
+    console.log(err)
   }
 }
 
