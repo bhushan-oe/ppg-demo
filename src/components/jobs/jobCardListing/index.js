@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import JobData from "../JobData";
 import sagaTypes from "../../../sagas/sagaTypes";
 import { useHistory } from "react-router-dom";
 
@@ -18,18 +17,21 @@ function mapDispatchToProps(dispatch) {
   const { getJobs = "", setJob = "" } = jobs;
 
   return {
-    getJobsData: (JobData) =>
+    getJobsData: (jobs) =>
       dispatch({
         type: getJobs,
-        payload: { JobData },
+        payload: { jobs },
       }),
     setSelectedJob: (selectedJob, history) =>
       dispatch({ type: setJob, payload: { selectedJob, history } }),
   };
 }
 
-function mapStateToProps({ jobs }) {
-  return { JobsData: jobs.JobsData };
+function mapStateToProps({ jobs, accounts }) {
+  return { 
+    JobsData: jobs.JobsData,
+    selectedAccount: accounts.selectedAccount
+  };
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -52,15 +54,23 @@ const useStyles = makeStyles((theme) => ({
   actionIcon: {
     color: "rgba(255, 255, 255, 0.75)",
   },
+  gridList: {
+    width: '100%'
+  },
+  gridListTile: {
+    width: '33% !important',
+    height: '250px !important'
+  }
 }));
 
 export const JobCardListing = connect(
   mapStateToProps,
   mapDispatchToProps
-)(({ JobsData, getJobsData, setSelectedJob }) => {
+)(({ JobsData, getJobsData, setSelectedJob, selectedAccount }) => {
+  const { relationships: { jobs} } = selectedAccount;
   useEffect(() => {
-    getJobsData(JobData);
-  }, [getJobsData]);
+    getJobsData(jobs.data);
+  }, [getJobsData, jobs]);
 
   const classes = useStyles();
   const history = useHistory();
@@ -68,19 +78,18 @@ export const JobCardListing = connect(
   const showDashboardForJob = (jobid) => {
     setSelectedJob(jobid, history);
   };
-
   const renderJobs = () =>
     JobsData
-      ? JobsData.JobData.map((item) => (
-          <GridListTile key={item.jobid}>
+      && JobsData.map((item) => (
+          <GridListTile key={item.data.id} className={classes.gridListTile}>
             <Box className={classes.box}>
               <Work className={classes.icon} />
               <GridListTileBar
-                title={item.jobname}
-                subtitle={<span>{item.jobid}</span>}
+                title={item.data.name}
+                subtitle={<span>{item.data.number}</span>}
                 className={classes.gridListTileBar}
                 actionIcon={
-                  <IconButton onClick={() => showDashboardForJob(item.jobid)}>
+                  <IconButton onClick={() => showDashboardForJob(item.data)}>
                     <CheckCircle className={classes.actionIcon} />
                   </IconButton>
                 }
@@ -88,11 +97,10 @@ export const JobCardListing = connect(
             </Box>
           </GridListTile>
         ))
-      : null;
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={170} spacing={20} cols={4}>
+      <GridList cellHeight={170} spacing={20} cols={4} className={classes.gridList}>
         {renderJobs()}
       </GridList>
     </div>

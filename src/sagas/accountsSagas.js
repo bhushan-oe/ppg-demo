@@ -10,9 +10,7 @@ function* getAccountDetails({ payload }) {
   const {AccountList: {AccountOrganizationIds} } = payload;
   try {
     const customerdata = yield all(
-      AccountOrganizationIds.map(items => {
-        return GetOrganisationList("organizations", items.id);
-      })
+      AccountOrganizationIds.map(items => GetOrganisationList("organizations", items.id))
     )
     yield put({ type: getAccounts, payload: { customerdata } });
   }catch(err){
