@@ -16,9 +16,7 @@ function* handleLogin({ payload }) {
     history.push("/accounts");
 
     const {data} = yield GetCustomerToken(user,pass);
-    console.log(data);
     const customerdata =  yield GetCustomerDetails(data.id, data.token);
-    console.log(customerdata);   
     
     yield put({type: setUserDetails, payload: { userDetails: customerdata}})
   }

@@ -18,10 +18,10 @@ function mapDispatchToProps(dispatch) {
   const { getAccounts = "", setAccount = "" } = accounts;
 
   return {
-    getAccountsData: (AccountData) =>
+    getAccountsData: ({slug, entryId}) =>
       dispatch({
         type: getAccounts,
-        payload: { AccountData },
+        payload: { slug, entryId },
       }),
     setSelectedAccount: (selectedAccount, history) =>
       dispatch({ type: setAccount, payload: { selectedAccount, history } }),
@@ -29,6 +29,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
+  console.log("state ---", state);
   return { AccountsData: state.accounts.AccountsData };
 }
 
@@ -58,9 +59,13 @@ export const AccountCardListing = connect(
   mapStateToProps,
   mapDispatchToProps
 )(({ AccountsData, getAccountsData, setSelectedAccount }) => {
+
   useEffect(() => {
-    getAccountsData(AccountData);
-  }, [getAccountsData]);
+    getAccountsData({
+      slug : "organizations",
+      entryId : "c5458b3a-12a9-4c2d-b6ec-344a2a0436c6"
+    });
+  }, []);
 
   const classes = useStyles();
   const history = useHistory();
@@ -71,17 +76,17 @@ export const AccountCardListing = connect(
 
   const renderAccounts = () =>
     AccountsData
-      ? AccountsData.AccountData.map((item) => (
-          <GridListTile key={item.accountid}>
+      ? //AccountsData.AccountData.map((item) => (
+          <GridListTile key={AccountsData.name}>
             <Box className={classes.box}>
               <AccountBox className={classes.icon} />
               <GridListTileBar
-                title={item.accountname}
-                subtitle={<span>{item.accountid}</span>}
+                title={AccountsData.name}
+                subtitle={<span>{AccountsData.number}</span>}
                 className={classes.gridListTileBar}
                 actionIcon={
                   <IconButton
-                    onClick={() => showJobsForAccount(item.accountid)}
+                    onClick={() => showJobsForAccount(AccountsData.id)}
                   >
                     <CheckCircle className={classes.actionIcon} />
                   </IconButton>
@@ -89,7 +94,8 @@ export const AccountCardListing = connect(
               />
             </Box>
           </GridListTile>
-        ))
+          
+        //))
       : null;
 
   return (

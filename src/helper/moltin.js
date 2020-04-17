@@ -46,5 +46,7 @@ export const GetCustomerDetails = (ID,Token) => Moltin.Customers.Get(ID,Token);
 
 export const GetCustomerToken = (email, password) => Moltin.Customers.Token(email,password);
 
+export const GetOrganisationList = (slug, entryId) => Moltin.Flows.GetEntry(slug, entryId);
+
 //export const GetCustomerDetails2 = (data) => Moltin.Addresses.All(data);
 
