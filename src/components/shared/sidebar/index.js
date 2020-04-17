@@ -8,6 +8,7 @@ import {
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
+import { useHistory } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -24,10 +25,6 @@ const useStyles = makeStyles((theme) => ({
   drawerContainer: {
     overflow: "auto",
 
-  },
-  sidenavLinks: {
-    "text-decoration" : "none",
-    color: "black"
   }
 }));
 
@@ -38,12 +35,20 @@ const mapStateToProps = ({ accounts, jobs }) => ({
 
 export const Sidebar = connect(mapStateToProps)(() => {
   const classes = useStyles();
+  const history = useHistory();
   const sidebarPanel = ["home", "accounts", "jobs"];
   const currentLocation = window.location.pathname.replace('/','');
 
   const index = sidebarPanel.indexOf(currentLocation);
   if (index > -1) {
     sidebarPanel.splice(index, sidebarPanel.length);
+  }
+
+  const navLinksRedirect = (text) => {
+    if(text === "home")
+      history.push("/");
+    else
+      history.push("/"+ text);
   }
 
   return (
@@ -58,11 +63,9 @@ export const Sidebar = connect(mapStateToProps)(() => {
       <div className={classes.drawerContainer}>
         <List>
           {sidebarPanel.map((text, index) => (
-            <a href={text === "home" ? '\\' : '\\' + text} className={classes.sidenavLinks}>
-              <ListItem button key={text}>
+            <ListItem button key={text} onClick={() => navLinksRedirect(text)}>
               <ListItemText primary={text.toUpperCase()} />
             </ListItem>
-            </a>
           ))}
         </List>
       </div>
