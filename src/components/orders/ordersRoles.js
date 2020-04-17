@@ -1,30 +1,24 @@
-import {
-  ApprovalDone,
-  ApprovalPending,
-  OrdersApproved,
-  OrdersPending,
-  PlaceOrder,
-} from "./";
+import { OrdersList, PlaceOrder } from "./";
 import React from "react";
 
 const TAB_ITEMS = {
   ordersApproved: {
-    tabComponent: () => <OrdersApproved />,
+    tabComponent: () => <OrdersList filter="ordersApproved" />,
     tabLabel: "Approved Orders",
     tabValue: "ordersApproved",
   },
   ordersPending: {
-    tabComponent: () => <OrdersPending />,
+    tabComponent: () => <OrdersList filter="ordersPending" />,
     tabLabel: "Pending Orders",
     tabValue: "ordersPending",
   },
   approvalPending: {
-    tabComponent: () => <ApprovalPending />,
+    tabComponent: () => <OrdersList filter="approvalPending" />,
     tabLabel: "Orders Waiting for Approval",
     tabValue: "approvalPending",
   },
   approvalDone: {
-    tabComponent: () => <ApprovalDone />,
+    tabComponent: () => <OrdersList filter="approvalDone" />,
     tabLabel: "Orders Approved",
     tabValue: "approvalDone",
   },
@@ -35,9 +29,7 @@ const TAB_ITEMS = {
   },
 };
 
-console.log(TAB_ITEMS);
-
-export const BUYER_ITEMS = [
+export const CUSTOMER_ITEMS = [
   TAB_ITEMS.ordersApproved,
   TAB_ITEMS.ordersPending,
   TAB_ITEMS.placeOrder,

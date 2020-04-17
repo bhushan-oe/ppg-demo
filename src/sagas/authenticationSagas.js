@@ -33,12 +33,9 @@ function* handleLogout() {
   yield put({ type: logout });
 }
 
-function* loginSaga() {
+function* authenticationSagas() {
   yield takeLeading(sagaTypes.authentication.login, handleLogin);
-}
-
-function* logoutSaga() {
   yield takeLatest(sagaTypes.authentication.logout, handleLogout);
 }
 
-export { loginSaga, logoutSaga };
+export { authenticationSagas };

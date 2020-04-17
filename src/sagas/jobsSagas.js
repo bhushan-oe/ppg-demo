@@ -33,7 +33,7 @@ function* setSelectedJob({ payload = {} }) {
   }
 }
 
-export function* jobsSaga() {
+export function* jobsSagas() {
   yield takeLatest(sagaTypes.jobs.getJobs, getJobsDetails);
   yield takeLatest(sagaTypes.jobs.resetJob, resetSelectedJob);
   yield takeLatest(sagaTypes.jobs.setJob, setSelectedJob);

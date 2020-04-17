@@ -89,8 +89,8 @@ export const JobCardListing = connect(
     const classes = useStyles();
     const history = useHistory();
 
-    const showOrdersForJob = (jobid) => {
-      setSelectedJob(jobid, history);
+    const showOrdersForJob = (job) => {
+      setSelectedJob(job, history);
     };
 
     const renderJobs = () =>

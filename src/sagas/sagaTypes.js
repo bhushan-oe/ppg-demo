@@ -15,6 +15,8 @@ export const sagaTypes = {
   },
   orders: {
     checkout: "CHECKOUT_SAGA",
+    clearOrdersList: "CLEAR_ORDERSLIST_SAGA",
+    getOrdersList: "GET_ORDERSLIST_SAGA",
   },
 };
 
