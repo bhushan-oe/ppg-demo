@@ -1,10 +1,9 @@
-const MoltinGateway = require('@moltin/sdk').gateway;
+const MoltinGateway = require("@moltin/sdk").gateway;
 
-  const Moltin = MoltinGateway({
-    client_id : "xplLNGkEAWwR4vX59woUt7ZxW2GIEVWwoO3mUlVU74",
-    application: 'react-demo-store'
-  });
-
+const Moltin = MoltinGateway({
+  client_id: "xplLNGkEAWwR4vX59woUt7ZxW2GIEVWwoO3mUlVU74",
+  application: "react-demo-store",
+});
 
 // export const GetProducts = () =>
 //   Moltin.Products.With('files, main_images, collections').All();
@@ -42,11 +41,14 @@ const MoltinGateway = require('@moltin/sdk').gateway;
 
 // export const DeleteCart = () => Moltin.Cart().Delete();
 
-export const GetCustomerDetails = (ID,Token) => Moltin.Customers.Get(ID,Token);
+export const GetCustomerDetails = (ID, Token) =>
+  Moltin.Customers.Get(ID, Token);
 
-export const GetCustomerToken = (email, password) => Moltin.Customers.Token(email,password);
+export const GetCustomerToken = (email, password) =>
+  Moltin.Customers.Token(email, password);
 
-export const GetOrganisationList = (slug, entryId) => Moltin.Flows.GetEntry(slug, entryId);
+export const GetFlowEntries = (slug) => Moltin.Flows.GetEntries(slug);
+
+export const GetFlowEntry = (slug, entry) => Moltin.Flows.GetEntry(slug, entry);
 
 //export const GetCustomerDetails2 = (data) => Moltin.Addresses.All(data);
-

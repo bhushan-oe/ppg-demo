@@ -1,7 +1,7 @@
 import actionTypes from "../actions/actionTypes";
 import sagaTypes from "./sagaTypes";
 import { put, takeLatest, all } from "redux-saga/effects";
-import { GetOrganisationList } from "../helper/moltin";
+import { GetFlowEntry } from "../helper/moltin";
 
 const { accounts = {}, jobs = {} } = actionTypes;
 const { getAccounts, resetAccount, setAccount } = accounts;
@@ -18,7 +18,7 @@ function* getAccountDetails({ payload }) {
           AccountOrganizationIds.length &&
           AccountOrganizationIds) ||
         []
-      ).map((items) => items && GetOrganisationList("organizations", items.id))
+      ).map((items) => items && GetFlowEntry("organizations", items.id))
     );
     yield put({ type: getAccounts, payload: { customerdata } });
   } catch (err) {

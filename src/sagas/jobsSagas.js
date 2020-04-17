@@ -1,7 +1,7 @@
 import actionTypes from "../actions/actionTypes";
 import sagaTypes from "./sagaTypes";
 import { put, takeLatest, all } from "redux-saga/effects";
-import { GetOrganisationList } from "../helper/moltin";
+import { GetFlowEntry } from "../helper/moltin";
 
 const { jobs: jobsActions = {} } = actionTypes;
 const { getJobs, resetJob, setJob } = jobsActions;
@@ -10,7 +10,7 @@ function* getJobsDetails({ payload: jobs }) {
   try {
     const JobData = yield all(
       ((Array.isArray(jobs.jobs) && jobs.jobs.length && jobs.jobs) || []).map(
-        (item) => item && GetOrganisationList("jobs", item.id)
+        (item) => item && GetFlowEntry("jobs", item.id)
       )
     );
     yield put({ type: getJobs, payload: { JobData } });

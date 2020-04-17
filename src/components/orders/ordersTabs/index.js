@@ -1,7 +1,9 @@
-import { APPROVER_ITEMS, BUYER_ITEMS } from "./ordersRoles";
+import { APPROVER_ITEMS, BUYER_ITEMS } from "../ordersRoles";
 import { Box, Tab, Tabs, Typography } from "@material-ui/core";
-import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import React, { useState } from "react";
+import { BrowserRouter as Router, NavLink, Route } from "react-router-dom";
+
+const BASENAME = "/orders";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -35,10 +37,11 @@ const getTabItems = (role) => {
 };
 
 export const OrdersTabs = () => {
-  const currentTabItems = getTabItems("approver") || [];
+  const role = "";
+  const currentTabItems = getTabItems(role) || [];
   const firstTab = [...currentTabItems].shift();
   const { tabValue } = firstTab || {};
-  const [value, setValue] = React.useState(tabValue);
+  const [value, setValue] = useState(tabValue);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -50,9 +53,11 @@ export const OrdersTabs = () => {
 
       return (
         <Tab
+          component={NavLink}
           key={`tab-${index}`}
           value={tabValue}
           label={tabLabel}
+          to={`/${tabValue}`}
           wrapped
           {...a11yProps(tabValue)}
         />
@@ -62,18 +67,20 @@ export const OrdersTabs = () => {
 
   const renderTabsPanels = () => {
     return currentTabItems.map((tabItem, index) => {
-      const { tabComponent, tabLabel, tabValue } = tabItem;
+      const { tabComponent, tabValue } = tabItem;
 
       return (
         <TabPanel key={index} value={value} index={tabValue}>
-          {tabLabel}
+          <Route path={`/${tabValue}`} exact>
+            {tabComponent()}
+          </Route>
         </TabPanel>
       );
     });
   };
 
   return (
-    <Router>
+    <Router basename={BASENAME}>
       <Tabs
         value={value}
         indicatorColor="primary"

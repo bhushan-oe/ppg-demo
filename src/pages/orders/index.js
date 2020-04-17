@@ -1,13 +1,8 @@
 import React from "react";
-import { OrdersTabs } from "../../components/orders";
-import { PageWrapper } from "../../components/shared";
+import { RedirectOrders } from "../../components/orders";
 
 export const Orders = () => {
-  return (
-    <PageWrapper>
-      <OrdersTabs />
-    </PageWrapper>
-  );
+  return <RedirectOrders />;
 };
 
 export default Orders;

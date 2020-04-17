@@ -1,21 +1,33 @@
-import { Container, Grid } from "@material-ui/core";
+import { Container, Grid, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import "./footer.scss";
 
+const useStyles = makeStyles((theme) => ({
+  footer: {
+    color: "#fff",
+  },
+  smallText: {
+    fontSize: "0.7rem",
+    textAlign: "center",
+  },
+}));
+
 export const Footer = () => {
+  const classes = useStyles();
+
   return (
     <footer className="footer" id="footer">
-      <Container>
+      <Container className={classes.footer}>
         <Grid container>
           <Grid item xs={12}>
-            Footer
+            <Typography>Footer</Typography>
           </Grid>
         </Grid>
         <Grid container>
           <Grid item xs={12}>
-            <p className="footer-small-text">
+            <Typography className={classes.smallText}>
               PPG Demo UI &ndash; 2020 &ndash; &copy; Object Edge Inc.
-            </p>
+            </Typography>
           </Grid>
         </Grid>
       </Container>
