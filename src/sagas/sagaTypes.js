@@ -7,6 +7,9 @@ export const sagaTypes = {
     getAccounts: "GET_ACCOUNTS_SAGA",
     setAccount: "SET_ACCOUNT_SAGA",
   },
+  orders: {
+    checkout: "CHECKOUT_SAGA",
+  },
 };
 
 export default sagaTypes;
