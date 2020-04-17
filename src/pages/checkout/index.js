@@ -1,11 +1,12 @@
 import React from "react";
-import { AddressForm } from "../../components/checkout";
+import { ProductList, AddressSelect } from "../../components/checkout";
 import { PageWrapper } from "../../components/shared";
 
 export const Checkout = () => {
   return (
     <PageWrapper>
-      <AddressForm />
+      <ProductList />
+      <AddressSelect />
     </PageWrapper>
   );
 };
