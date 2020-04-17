@@ -7,7 +7,6 @@ import {
   IconButton,
   makeStyles,
 } from "@material-ui/core";
-import AccountData from "../AccountData";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import sagaTypes from "../../../sagas/sagaTypes";
@@ -40,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexWrap: "wrap",
     flexGrow: 1,
+    width: '100%'
   },
   box: {
     textAlign: "center",
@@ -47,7 +47,9 @@ const useStyles = makeStyles((theme) => ({
   },
   gridListTileBar: {
     textAlign: "left",
+    height: '100px',
   },
+  
   icon: {
     fontSize: "165px",
     color: "rgba(255, 255, 255, 0.75)",
@@ -55,6 +57,13 @@ const useStyles = makeStyles((theme) => ({
   actionIcon: {
     color: "rgba(255, 255, 255, 0.75)",
   },
+  gridList: {
+    width: '100%'
+  },
+  gridListTile: {
+    width: '33% !important',
+    height: '250px !important'
+  }
 }));
 
 export const AccountCardListing = connect(
@@ -78,7 +87,7 @@ export const AccountCardListing = connect(
   const renderAccounts = () =>
     AccountsData
       ? AccountsData.map((item) => (
-          <GridListTile key={item.data.name}>
+          <GridListTile key={item.data.name} className={classes.gridListTile}>
             <Box className={classes.box}>
               <AccountBox className={classes.icon} />
               <GridListTileBar
@@ -100,7 +109,7 @@ export const AccountCardListing = connect(
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={170} spacing={20} cols={4}>
+      <GridList cellHeight={170} spacing={20} cols={4} className={classes.gridList}>
         {renderAccounts()}
       </GridList>
     </div>
