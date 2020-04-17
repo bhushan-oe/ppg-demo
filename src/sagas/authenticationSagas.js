@@ -5,7 +5,7 @@ import { LoginUser } from '../api/authenticationApi';
 import { GetCustomerDetails, GetCustomerToken } from '../helper/moltin'
 
 const { authentication = {} } = actionTypes;
-const { login, logout } = authentication;
+const { login, logout, setUserDetails } = authentication;
 
 function* handleLogin({ payload }) {
   const { history, user = null, pass = null } = payload;
@@ -18,7 +18,9 @@ function* handleLogin({ payload }) {
     const {data} = yield GetCustomerToken(user,pass);
     console.log(data);
     const customerdata =  yield GetCustomerDetails(data.id, data.token);
-    console.log(customerdata);    
+    console.log(customerdata);   
+    
+    // yield put({type: setUserDetails, payload: { userDetails: customerdata}})
   }
 }
 
