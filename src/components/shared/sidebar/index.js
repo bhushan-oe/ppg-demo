@@ -23,7 +23,12 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerContainer: {
     overflow: "auto",
+
   },
+  sidenavLinks: {
+    "text-decoration" : "none",
+    color: "black"
+  }
 }));
 
 const mapStateToProps = ({ accounts, jobs }) => ({
@@ -33,6 +38,13 @@ const mapStateToProps = ({ accounts, jobs }) => ({
 
 export const Sidebar = connect(mapStateToProps)(() => {
   const classes = useStyles();
+  const sidebarPanel = ["home", "accounts", "jobs"];
+  const currentLocation = window.location.pathname.replace('/','');
+
+  const index = sidebarPanel.indexOf(currentLocation);
+  if (index > -1) {
+    sidebarPanel.splice(index, sidebarPanel.length);
+  }
 
   return (
     <Drawer
@@ -45,10 +57,12 @@ export const Sidebar = connect(mapStateToProps)(() => {
       <Toolbar />
       <div className={classes.drawerContainer}>
         <List>
-          {["Home"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemText primary={text} />
+          {sidebarPanel.map((text, index) => (
+            <a href={text === "home" ? '\\' : '\\' + text} className={classes.sidenavLinks}>
+              <ListItem button key={text}>
+              <ListItemText primary={text.toUpperCase()} />
             </ListItem>
+            </a>
           ))}
         </List>
       </div>
