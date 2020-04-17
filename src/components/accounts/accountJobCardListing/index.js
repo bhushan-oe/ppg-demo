@@ -1,9 +1,14 @@
-import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import { connect } from "react-redux";
-import AccountJobCard from "../accountJobCard";
+import {
+  Box,
+  GridList,
+  GridListTile,
+  GridListTileBar,
+  makeStyles,
+} from "@material-ui/core";
+import { AccountBox } from "@material-ui/icons";
 import AccountData from "../AccountData";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import sagaTypes from "../../../sagas/sagaTypes";
 
 function mapDispatchToProps(dispatch) {
@@ -26,23 +31,29 @@ function mapStateToProps(state) {
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: "flex",
+    flexWrap: "wrap",
     flexGrow: 1,
   },
-  paper: {
-    padding: theme.spacing(1),
+  box: {
     textAlign: "center",
-    color: theme.palette.text.secondary,
+    backgroundColor: "#ccc",
+  },
+  gridListTileBar: {
+    textAlign: "left",
+  },
+  icon: {
+    fontSize: "165px",
+    color: "rgba(255, 255, 255, 0.54)",
   },
 }));
 
 export const AccountJobCardListing = connect(
   mapStateToProps,
   mapDispatchToProps
-)((props) => {
-  const { AccountsData } = props;
-
+)(({ AccountsData, getAccountsData }) => {
   useEffect(() => {
-    props.getAccountsData(AccountData);
+    getAccountsData(AccountData);
   }, []);
 
   const classes = useStyles();
@@ -51,26 +62,30 @@ export const AccountJobCardListing = connect(
     console.log("here", accountid);
   };
 
-  function FormRow() {
-    return (
-      AccountsData &&
-      AccountsData.AccountData.map((item) => {
-        return (
-          <Grid item xs={4} onClick={() => showJobsForAccount(item.accountid)}>
-            <AccountJobCard name={item.accountname} id={item.accountid} />
-          </Grid>
-        );
-      })
-    );
-  }
+  const renderAccounts = () =>
+    AccountsData
+      ? AccountsData.AccountData.map((item) => (
+          <GridListTile
+            onClick={() => showJobsForAccount(item.accountid)}
+            key={item.accountid}
+          >
+            <Box className={classes.box}>
+              <AccountBox className={classes.icon} />
+              <GridListTileBar
+                title={item.accountname}
+                subtitle={<span>{item.accountid}</span>}
+                className={classes.gridListTileBar}
+              />
+            </Box>
+          </GridListTile>
+        ))
+      : null;
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={1}>
-        <Grid container item xs={12} spacing={3}>
-          <FormRow />
-        </Grid>
-      </Grid>
+      <GridList cellHeight={170} spacing={20} cols={4}>
+        {renderAccounts()}
+      </GridList>
     </div>
   );
 });

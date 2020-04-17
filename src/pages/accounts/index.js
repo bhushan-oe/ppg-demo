@@ -6,7 +6,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 export const Accounts = () => {
   return (
     <PageWrapper>
-      <Toolbar />
       <AccountJobCardListing />
     </PageWrapper>
   );
