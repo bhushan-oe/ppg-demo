@@ -3,6 +3,7 @@ import { authenticationSagas } from "./authenticationSagas";
 import { accountsSagas } from "./accountsSagas";
 import { jobsSagas } from "./jobsSagas";
 import { ordersSagas } from "./ordersSagas";
+import { getRoleSagas } from "./getRoleSagas";
 
 export default function* rootSaga() {
   yield all([
@@ -10,5 +11,6 @@ export default function* rootSaga() {
     accountsSagas(),
     jobsSagas(),
     ordersSagas(),
+    getRoleSagas()
   ]);
 }

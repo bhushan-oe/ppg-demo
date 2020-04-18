@@ -18,6 +18,10 @@ export const sagaTypes = {
     clearOrdersList: "CLEAR_ORDERSLIST_SAGA",
     getOrdersList: "GET_ORDERSLIST_SAGA",
   },
+  role: {
+    getRoleOfCustomer: "GET_ROLE_SAGA",
+    resetRoleOfCustomer: "RESET_ROLE_SAGA"
+  }
 };
 
 export default sagaTypes;

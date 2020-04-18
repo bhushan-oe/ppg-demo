@@ -18,6 +18,10 @@ const actionTypes = {
     clearOrdersList: "CLEAR_ORDERSLIST_ACTION",
     setOrdersList: "SET_ORDERSLIST_ACTION",
   },
+  role: {
+    getRoleOfCustomer: "GET_ROLE_ACTION",
+    resetRoleOfCustomer: "RESET_ROLE_ACTION"
+  }
 };
 
 export default actionTypes;
