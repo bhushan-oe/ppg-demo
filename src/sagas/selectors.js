@@ -32,3 +32,18 @@ export const getSelectedJobProductIds = (state) => {
   const productIds = job_products.data && job_products.data.map(item=>item.id);
   return  productIds || [];
 } 
+
+export const getSKUs = (state) => {
+  const { skus = {} } = getState(state) || {};
+
+  return skus;
+}
+export const getSKUlist = (state) => {
+  const { skulist = {} } = getSKUs(state) || {};  
+  return skulist;
+}
+
+export const getProductlist = (state) => {
+  const { productlist = {} } = getSKUs(state) || {};  
+  return productlist;
+}

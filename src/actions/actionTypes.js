@@ -18,6 +18,10 @@ const actionTypes = {
     clearOrdersList: "CLEAR_ORDERSLIST_ACTION",
     setOrdersList: "SET_ORDERSLIST_ACTION",
   },
+  skus : {
+    setSKUList: "SET_SKU_LIST",
+    setSKUProductList: "SET_SKU_PRODUCT_LIST"
+  }
 };
 
 export default actionTypes;

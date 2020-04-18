@@ -8,7 +8,7 @@ const Moltin = MoltinGateway({
 // export const GetProducts = () =>
 //   Moltin.Products.With('files, main_images, collections').All();
 
-// export const GetProduct = ID => Moltin.Products.Get(ID);
+export const GetProduct = ID => Moltin.Products.Get(ID);
 
 // export const GetCategories = () => Moltin.Categories.With('products').All();
 
