@@ -2,13 +2,12 @@ import React, { useState,useEffect } from "react";
 import { Button } from '@material-ui/core';
 import { connect } from "react-redux";
 import { ItemSelector } from './../../shared';
-import { mockItems } from './../../checkout/productList/mockItems';
 import sagaTypes from "../../../sagas/sagaTypes";
 
 const mapStateToProps = ({ jobs,skus }) => ({ 
   selectedJob: jobs.selectedJob,
 skulist: skus.skulist,
-productlist: skus.productlist });
+productlist: skus.products });
 
 const mapDispatchToProps = (dispatch) => {
   const { products = {} } = sagaTypes;
@@ -38,18 +37,19 @@ export const PlaceOrder = connect(
     getProductList({selectedJob})
   },[selectedJob, getProductList]);
   //TODO: hook this with actions and selectors from the store instead
-  const [items, setItems] = useState(mockItems);
+  const [items, setItems] = useState([]);
 
   return (
     <>
-      {skulist && skulist.length && <ItemSelector
+      {skulist && skulist.length && 
+      <ItemSelector
         items={skulist}
         productdata={productlist}
-        handleChange={(itemId, quantity) => {
+        handleChange={(itemId, quantity, price) => {
           const item = items[itemId];
           setItems({
             ...items,
-            [itemId]: { ...item, quantity }
+            [itemId]: { itemId, quantity, price }
           })
         }}
       />}

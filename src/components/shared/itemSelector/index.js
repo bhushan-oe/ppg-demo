@@ -34,25 +34,22 @@ const useStyles = makeStyles(theme => {
   }
 });
 
-const Item = ({ id, price,name, data, handleChange }) => {
-  const { quantityInput, property, image, imageLink } = useStyles();
-  //const { data, quantity }= product;
+const Item = ({ id, price, meta,name, handleChange, imageLink="https://wmu.epdemos.com/static/dbc38af2966a367464d252ec1bd0e50f/2244e/6ff1ccdc-3ca5-4b95-bac5-c0a040289150.jpg" }) => {
+  const { quantityInput, property, image} = useStyles();
 
   return (
     <>
       <Grid className={property} item xs={3}>
         <img className={image} src={imageLink} alt="img" />
       </Grid>
-      <Grid className={property} item xs={3}>{name}</Grid>
-      <Grid className={property} item xs={2}>{`$${price}`}</Grid>
-      <Grid className={property} item xs={2}>{`$${price}`}</Grid>
+      <Grid className={property} item xs={5}>{name}</Grid>
+      <Grid className={property} item xs={2}>{`${meta.display_price.with_tax.formatted}`}</Grid>
       <Grid className={property} item xs={2}>
         <OutlinedInput
           className={quantityInput}
-          onChange={e => handleChange(id, e.target.value)}
+          onChange={e => handleChange(id, e.target.value, price[0].amount)}
           onFocus={e => e.target.select()}
           variant="outlined"
-          value={1}
         />
       </Grid>
     </>
@@ -61,21 +58,19 @@ const Item = ({ id, price,name, data, handleChange }) => {
 
 const ItemSelector = ({ items,productdata, handleChange }) => {
   const classes = useStyles();
-
   return (
     <Grid className={classes.root} container>
       <Grid className={classes.heading} item xs={3}>Image</Grid>
-      <Grid className={classes.heading} item xs={3}>Item Details</Grid>
+      <Grid className={classes.heading} item xs={5}>Item Name</Grid>
       <Grid className={classes.heading} item xs={2}>Unit Price</Grid>
-      <Grid className={classes.heading} item xs={2}>Amount</Grid>
       <Grid className={classes.heading} item xs={2}>Quantity</Grid>
-      {items.map(({sku_id,id,price}) => {
+      {productdata && items.map(({sku_id,id,price}) => {
         return (
           <Item
             id={sku_id}
             price={price}
             handleChange={handleChange}
-            
+            {...productdata[sku_id]}
             key={sku_id}
           />
         );

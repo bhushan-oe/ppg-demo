@@ -37,7 +37,6 @@ function* getProducts({ payload }) {
     const productDetails = yield all(cleanSKUArr.map(item=>{
       return GetProduct(item.sku_id, token);
     }))
-    console.log(productDetails);
     const skuProducts = {};
     productDetails.map(item=>{
       if (item.data && item.data.id) {
