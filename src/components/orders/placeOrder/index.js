@@ -5,7 +5,10 @@ import { ItemSelector } from './../../shared';
 import { mockItems } from './../../checkout/productList/mockItems';
 import sagaTypes from "../../../sagas/sagaTypes";
 
-const mapStateToProps = ({ jobs }) => ({ selectedJob: jobs.selectedJob });
+const mapStateToProps = ({ jobs,skus }) => ({ 
+  selectedJob: jobs.selectedJob,
+skulist: skus.skulist,
+productlist: skus.productlist });
 
 const mapDispatchToProps = (dispatch) => {
   const { products = {} } = sagaTypes;
@@ -25,7 +28,9 @@ export const PlaceOrder = connect(
 )((
   {
     selectedJob,
-    getProductList
+    getProductList,
+    skulist,
+    productlist
   }
 ) => {
 
@@ -37,8 +42,9 @@ export const PlaceOrder = connect(
 
   return (
     <>
-      <ItemSelector
-        items={items}
+      {skulist && skulist.length && <ItemSelector
+        items={skulist}
+        productdata={productlist}
         handleChange={(itemId, quantity) => {
           const item = items[itemId];
           setItems({
@@ -46,7 +52,7 @@ export const PlaceOrder = connect(
             [itemId]: { ...item, quantity }
           })
         }}
-      />
+      />}
       <Button
         variant="contained"
         color="primary"

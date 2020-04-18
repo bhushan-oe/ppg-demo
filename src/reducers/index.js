@@ -3,6 +3,7 @@ import authentication from "./authentication";
 import jobs from "./jobs";
 import orders from "./orders";
 import skus from './skus';
+import role from "./role";
 import { combineReducers } from "redux";
 
 export const reducers = combineReducers({
@@ -10,7 +11,8 @@ export const reducers = combineReducers({
   authentication,
   jobs,
   orders,
-  skus
+  skus,
+  role
 });
 
 export default reducers;

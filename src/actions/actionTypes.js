@@ -21,6 +21,10 @@ const actionTypes = {
   skus : {
     setSKUList: "SET_SKU_LIST",
     setSKUProductList: "SET_SKU_PRODUCT_LIST"
+  },
+  role: {
+    getRoleOfCustomer: "GET_ROLE_ACTION",
+    resetRoleOfCustomer: "RESET_ROLE_ACTION"
   }
 };
 

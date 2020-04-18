@@ -20,6 +20,10 @@ export const sagaTypes = {
   },
   products: {
     getProductList: "GET_PRODUCT_SAGA"
+  },
+  role: {
+    getRoleOfCustomer: "GET_ROLE_SAGA",
+    resetRoleOfCustomer: "RESET_ROLE_SAGA"
   }
 };
 
