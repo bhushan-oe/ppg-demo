@@ -34,8 +34,9 @@ const useStyles = makeStyles(theme => {
   }
 });
 
-const Item = ({ id, price, meta,name, handleChange, imageLink="https://wmu.epdemos.com/static/dbc38af2966a367464d252ec1bd0e50f/2244e/6ff1ccdc-3ca5-4b95-bac5-c0a040289150.jpg" }) => {
+const Item = ({ id, price, meta,name, handleChange, quantity }) => {
   const { quantityInput, property, image} = useStyles();
+  const imageLink = "https://wmu.epdemos.com/static/dbc38af2966a367464d252ec1bd0e50f/2244e/6ff1ccdc-3ca5-4b95-bac5-c0a040289150.jpg";
 
   return (
     <>
@@ -50,13 +51,14 @@ const Item = ({ id, price, meta,name, handleChange, imageLink="https://wmu.epdem
           onChange={e => handleChange(id, e.target.value, price[0].amount)}
           onFocus={e => e.target.select()}
           variant="outlined"
+          value={quantity}
         />
       </Grid>
     </>
   );
 };
 
-const ItemSelector = ({ items,productdata, handleChange }) => {
+const ItemSelector = ({ items,productdata, cartItems, handleChange }) => {
   const classes = useStyles();
   return (
     <Grid className={classes.root} container>
@@ -71,6 +73,7 @@ const ItemSelector = ({ items,productdata, handleChange }) => {
             price={price}
             handleChange={handleChange}
             {...productdata[sku_id]}
+            quantity={cartItems[sku_id] && cartItems[sku_id].quantity}
             key={sku_id}
           />
         );
