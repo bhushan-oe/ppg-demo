@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => {
   }
 });
 
-const Item = ({ id, price, meta,name, handleChange, quantity }) => {
+const Item = ({ id, meta,name, handleChange, quantity }) => {
   const { quantityInput, property, image} = useStyles();
   const imageLink = "https://wmu.epdemos.com/static/dbc38af2966a367464d252ec1bd0e50f/2244e/6ff1ccdc-3ca5-4b95-bac5-c0a040289150.jpg";
 
@@ -48,7 +48,7 @@ const Item = ({ id, price, meta,name, handleChange, quantity }) => {
       <Grid className={property} item xs={2}>
         <OutlinedInput
           className={quantityInput}
-          onChange={e => handleChange(id, e.target.value, price[0].amount)}
+          onChange={e => handleChange(id, e.target.value)}
           onFocus={e => e.target.select()}
           variant="outlined"
           value={quantity}

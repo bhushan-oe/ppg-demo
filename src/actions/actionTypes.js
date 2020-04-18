@@ -17,6 +17,7 @@ const actionTypes = {
   orders: {
     clearOrdersList: "CLEAR_ORDERSLIST_ACTION",
     setOrdersList: "SET_ORDERSLIST_ACTION",
+    checkout: "CHECKOUT"
   },
   skus : {
     setSKUList: "SET_SKU_LIST",
@@ -25,6 +26,9 @@ const actionTypes = {
   role: {
     getRoleOfCustomer: "GET_ROLE_ACTION",
     resetRoleOfCustomer: "RESET_ROLE_ACTION"
+  },
+  cart: {
+    setCart : "SET_CART"  
   }
 };
 

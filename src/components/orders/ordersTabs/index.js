@@ -1,8 +1,9 @@
 import { APPROVER_ITEMS, CUSTOMER_ITEMS } from "../ordersRoles";
 import { Box, Tab, Tabs, Typography } from "@material-ui/core";
 import React, { useState } from "react";
-import { BrowserRouter as Router, NavLink, Route } from "react-router-dom";
+import { BrowserRouter as Router, NavLink, Route, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
+import { createBrowserHistory } from "history";
 
 const BASENAME = "/orders";
 
@@ -53,6 +54,10 @@ export const OrdersTabs = connect(mapStateToProps)(
       setValue(newValue);
     };
 
+    const history = useHistory();
+    //const history = createBrowserHistory({ basename: '/orders' });
+
+
     const renderTabs = () => {
       return currentTabItems.map((tabItem, index) => {
         const { tabLabel, tabValue } = tabItem;
@@ -77,7 +82,7 @@ export const OrdersTabs = connect(mapStateToProps)(
 
         return (
           <TabPanel key={index} value={value} index={tabValue}>
-            <Route path={`/${tabValue}`} exact>
+            <Route path={`/${tabValue}`}>
               {tabComponent()}
             </Route>
           </TabPanel>
@@ -86,7 +91,7 @@ export const OrdersTabs = connect(mapStateToProps)(
     };
 
     return (
-      <Router basename={BASENAME}>
+      <>
         <Tabs
           value={value}
           indicatorColor="primary"
@@ -98,7 +103,7 @@ export const OrdersTabs = connect(mapStateToProps)(
           {renderTabs()}
         </Tabs>
         {renderTabsPanels()}
-      </Router>
+        </>
     );
   }
 );

@@ -5,6 +5,7 @@ import { jobsSagas } from "./jobsSagas";
 import { ordersSagas } from "./ordersSagas";
 import { productSaga} from "./productsSaga";
 import { getRoleSagas } from "./getRoleSagas";
+import { cartSagas } from "./cartSagas";
 
 export default function* rootSaga() {
   yield all([
@@ -13,6 +14,7 @@ export default function* rootSaga() {
     jobsSagas(),
     ordersSagas(),
     productSaga(),
-    getRoleSagas()
+    getRoleSagas(),
+    cartSagas()
   ]);
 }

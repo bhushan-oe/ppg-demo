@@ -6,7 +6,7 @@ export const initialState = {
   products: null
 };
 
-export default function accounts(state = initialState, action) {
+export default function skus(state = initialState, action) {
   const { skus = {} } = actionTypes;
    const { setSKUList, setSKUProductList } = skus;
   const { type, payload } = action;

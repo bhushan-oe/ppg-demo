@@ -47,3 +47,24 @@ export const getProductlist = (state) => {
   const { productlist = {} } = getSKUs(state) || {};  
   return productlist;
 }
+
+export const getAccounts = (state) => {
+  const { accounts = {} } = getState(state) || {};
+
+  return accounts;
+}
+
+export const getSelectedAccount = (state) => {
+  const { selectedAccount = {} } = getAccounts(state) || {};
+
+  return selectedAccount;
+}
+
+export const getCart = (state) => {
+  const {cart = {}} = getState(state) || {};
+  return cart;
+} 
+export const getCartItems = (state) => {
+  const {included = {}} = getCart(state);
+  return included && included.items;
+}

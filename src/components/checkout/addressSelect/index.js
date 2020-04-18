@@ -27,8 +27,8 @@ const AddressSelect = connect(
     e.stopPropagation();
 
     doCheckout({
-      billingAddress: addresses[billingAddressId],
-      shippingAddress: addresses[shippingAddressId],
+      billing_address: addresses[billingAddressId],
+      shipping_address: addresses[shippingAddressId],
     });
   };
 
