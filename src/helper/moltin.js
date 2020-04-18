@@ -35,7 +35,7 @@ const Moltin = MoltinGateway({
 
 // export const Checkout = data => Moltin.Cart().Checkout(data);
 
-// export const GetOrder = ID => Moltin.Orders.Get(ID);
+export const GetOrder = ID => Moltin.Orders.Get(ID);
 
 // export const OrderPay = (ID, data) => Moltin.Orders.Payment(ID, data);
 
