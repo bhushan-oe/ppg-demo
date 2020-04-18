@@ -37,14 +37,11 @@ const getTabItems = (role) => {
     : CUSTOMER_ITEMS;
 };
 
-const mapStateToProps = ({ authentication }) => ({ authentication });
+const mapStateToProps = ({ authentication, role }) => ({ authentication, role });
 
 export const OrdersTabs = connect(mapStateToProps)(
-  ({ authentication = {} }) => {
-    const { userDetails = {} } = authentication || {};
-    const { data = {} } = userDetails || {};
-    const { type = "customer" } = data || {};
-    const currentTabItems = getTabItems(type) || [];
+  ({ role: {customerRole = ""} }) => {
+    const currentTabItems = getTabItems(customerRole) || [];
     const firstTab = [...currentTabItems].shift();
     const { tabValue } = firstTab || {};
     const [value, setValue] = useState(tabValue);
