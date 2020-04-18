@@ -20,9 +20,16 @@ export const PlaceOrder = () => {
           })
         }}
       />
-      <Button variant="contained" color="primary" display="block">
-        Add To Cart
-      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        display="block"
+        onClick={() => {
+          //TODO: update this to use react router redirect. I could not do this for now, as this component is nested inside /orders route.
+          window.location = '/checkout';
+        }}>
+          Add To Cart
+        </Button>
     </>
   );
 };
