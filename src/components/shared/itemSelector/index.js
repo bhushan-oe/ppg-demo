@@ -1,6 +1,7 @@
 //Item selector intended to be used on place order tab and on checkout page
 import React from "react";
 import { makeStyles, Grid, OutlinedInput } from '@material-ui/core';
+import { classes } from "istanbul-lib-coverage";
 
 const useStyles = makeStyles(theme => {
   return {
@@ -12,30 +13,38 @@ const useStyles = makeStyles(theme => {
       ...theme.typography.overline,
       color: '#fff',
       background: 'rgb(10,121,170)',
-      paddingLeft: '15px'
+      padding: '15px'
     },
     property: {
       ...theme.typography.subtitle1,
-      padding: '3px 15px',
+      padding: '10px 15px',
       display: 'flex',
-      alignItems: 'center'
+      alignItems: 'center',
+      borderBottom: '2px solid gray'
     },
     quantityInput: {
       width: '100%',
       '& .MuiInputBase-input': {
         padding: '10px 14px'
       }
+    },
+    image: {
+      width: '150px'
     }
   }
 });
 
-const Item = ({ id, name, price, quantity, handleChange }) => {
-  const { quantityInput, property } = useStyles();
+const Item = ({ id, name, price, quantity, handleChange, imageLink }) => {
+  const { quantityInput, property, image } = useStyles();
 
   return (
     <>
-      <Grid className={property} item xs={7}>{name}</Grid>
-      <Grid className={property} item xs={3}>{`$${price}`}</Grid>
+      <Grid className={property} item xs={3}>
+        <img className={image} src={imageLink} alt="img" />
+      </Grid>
+      <Grid className={property} item xs={3}>{name}</Grid>
+      <Grid className={property} item xs={2}>{`$${price}`}</Grid>
+      <Grid className={property} item xs={2}>{`$${price}`}</Grid>
       <Grid className={property} item xs={2}>
         <OutlinedInput
           className={quantityInput}
@@ -54,8 +63,10 @@ const ItemSelector = ({ items, handleChange }) => {
 
   return (
     <Grid className={classes.root} container>
-      <Grid className={classes.heading} item xs={7}>Item Details</Grid>
-      <Grid className={classes.heading} item xs={3}>Price</Grid>
+      <Grid className={classes.heading} item xs={3}>Image</Grid>
+      <Grid className={classes.heading} item xs={3}>Item Details</Grid>
+      <Grid className={classes.heading} item xs={2}>Unit Price</Grid>
+      <Grid className={classes.heading} item xs={2}>Amount</Grid>
       <Grid className={classes.heading} item xs={2}>Quantity</Grid>
       {Object.keys(items).map(itemId => {
         return (
