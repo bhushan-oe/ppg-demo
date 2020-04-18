@@ -1,10 +1,37 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Button } from '@material-ui/core';
-
+import { connect } from "react-redux";
 import { ItemSelector } from './../../shared';
 import { mockItems } from './../../checkout/productList/mockItems';
+import sagaTypes from "../../../sagas/sagaTypes";
 
-export const PlaceOrder = () => {
+const mapStateToProps = ({ jobs }) => ({ selectedJob: jobs.selectedJob });
+
+const mapDispatchToProps = (dispatch) => {
+  const { products = {} } = sagaTypes;
+
+  return {
+    getProductList : (filter)=> dispatch({
+      type: products.getProductList,
+      payload: {filter}
+
+    })
+  }
+};
+
+export const PlaceOrder = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)((
+  {
+    selectedJob,
+    getProductList
+  }
+) => {
+
+  useEffect(()=>{
+    getProductList({selectedJob})
+  },[selectedJob, getProductList]);
   //TODO: hook this with actions and selectors from the store instead
   const [items, setItems] = useState(mockItems);
 
@@ -32,6 +59,6 @@ export const PlaceOrder = () => {
         </Button>
     </>
   );
-};
+});
 
 export default PlaceOrder;

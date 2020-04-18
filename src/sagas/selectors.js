@@ -23,3 +23,12 @@ export const getSelectedJob = (state) => {
 
   return selectedJob;
 };
+
+export const getSelectedJobProductIds = (state) => {
+  
+  const { relationships = {} } = getSelectedJob(state) || {};
+  const { job_products = {} } = relationships;
+
+  const productIds = job_products.data && job_products.data.map(item=>item.id);
+  return  productIds || [];
+} 

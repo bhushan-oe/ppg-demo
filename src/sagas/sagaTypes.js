@@ -18,6 +18,9 @@ export const sagaTypes = {
     clearOrdersList: "CLEAR_ORDERSLIST_SAGA",
     getOrdersList: "GET_ORDERSLIST_SAGA",
   },
+  products: {
+    getProductList: "GET_PRODUCT_SAGA"
+  }
 };
 
 export default sagaTypes;
