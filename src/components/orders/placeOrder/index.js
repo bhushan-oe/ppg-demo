@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { ItemSelector } from './../../shared';
 import { mockItems } from './../../checkout/productList/mockItems';
 import sagaTypes from "../../../sagas/sagaTypes";
+import { useHistory } from "react-router-dom";
 
 const mapStateToProps = ({ jobs,skus }) => ({ 
   selectedJob: jobs.selectedJob,
@@ -37,21 +38,29 @@ export const PlaceOrder = connect(
   useEffect(()=>{
     getProductList({selectedJob})
   },[selectedJob, getProductList]);
-  //TODO: hook this with actions and selectors from the store instead
-  const [items, setItems] = useState(mockItems);
+  const [cartItems, setCartItems] = useState([]);
 
   return (
     <>
       {skulist && skulist.length && <ItemSelector
         items={skulist}
         productdata={productlist}
-        handleChange={(itemId, quantity) => {
-          const item = items[itemId];
-          setItems({
-            ...items,
-            [itemId]: { ...item, quantity }
-          })
+        handleChange={(sku_id, quantity) => {
+          const item = skulist.filter(i=> i.sku_id == sku_id)[0];
+          if(quantity && !isNaN(quantity))
+          {
+            setCartItems({
+              ...cartItems,
+              [sku_id]: { ...item, quantity }
+            })
+          }else{
+            delete cartItems[sku_id];
+            setCartItems({
+              ...cartItems
+            })
+          }
         }}
+        cartItems={cartItems}      
       />}
       <Button
         variant="contained"

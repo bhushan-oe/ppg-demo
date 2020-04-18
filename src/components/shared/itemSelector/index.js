@@ -34,32 +34,31 @@ const useStyles = makeStyles(theme => {
   }
 });
 
-const Item = ({ id, price,name, data, handleChange }) => {
+const Item = ({ id, price,name, data, quantity, handleChange }) => {
   const { quantityInput, property, image, imageLink } = useStyles();
   //const { data, quantity }= product;
-
   return (
     <>
       <Grid className={property} item xs={3}>
         <img className={image} src={imageLink} alt="img" />
       </Grid>
       <Grid className={property} item xs={3}>{name}</Grid>
-      <Grid className={property} item xs={2}>{`$${price}`}</Grid>
-      <Grid className={property} item xs={2}>{`$${price}`}</Grid>
+      <Grid className={property} item xs={2}>{`$${price/100}`}</Grid>
+      <Grid className={property} item xs={2}>{`$${price/100}`}</Grid>
       <Grid className={property} item xs={2}>
         <OutlinedInput
           className={quantityInput}
           onChange={e => handleChange(id, e.target.value)}
           onFocus={e => e.target.select()}
           variant="outlined"
-          value={1}
+          value={quantity}
         />
       </Grid>
     </>
   );
 };
 
-const ItemSelector = ({ items,productdata, handleChange }) => {
+const ItemSelector = ({ items,productdata, cartItems, handleChange }) => {
   const classes = useStyles();
 
   return (
@@ -75,7 +74,7 @@ const ItemSelector = ({ items,productdata, handleChange }) => {
             id={sku_id}
             price={price}
             handleChange={handleChange}
-            
+            quantity={cartItems[sku_id] && cartItems[sku_id].quantity}
             key={sku_id}
           />
         );
