@@ -152,7 +152,7 @@ export const OrdersTabs =  connect(mapStateToProps,mapDispatchToProps)(({authent
   
   const classes = useStyles();
 
-  const [value, setValue] = useState({});
+  const [value, setValue] = useState("ordersPending");
   const [tabs, setTabs] = useState(null);
 
   const { user } = authentication || {};
@@ -175,7 +175,6 @@ export const OrdersTabs =  connect(mapStateToProps,mapDispatchToProps)(({authent
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    console.log("changed",newValue)
   };
       return (
         <Route
