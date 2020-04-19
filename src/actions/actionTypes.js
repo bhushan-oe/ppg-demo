@@ -17,6 +17,11 @@ const actionTypes = {
   orders: {
     clearOrdersList: "CLEAR_ORDERSLIST_ACTION",
     setOrdersList: "SET_ORDERSLIST_ACTION",
+    checkout: "CHECKOUT"
+  },
+  skus : {
+    setSKUList: "SET_SKU_LIST",
+    setSKUProductList: "SET_SKU_PRODUCT_LIST"
   },
   role: {
     getRoleOfCustomer: "GET_ROLE_ACTION",
@@ -24,6 +29,9 @@ const actionTypes = {
   },
   approveOrder: {
     approveOrderById: "APPROVE_ORDER_ACTION"
+  },
+  cart: {
+    setCart : "SET_CART"  
   }
 };
 

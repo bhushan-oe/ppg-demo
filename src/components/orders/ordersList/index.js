@@ -56,7 +56,8 @@ export const OrdersList = connect(
       getOrdersList(filter);
     }, [clearOrders, filter, getOrdersList]);
 
-    useEffect(initializeOrders, []);
+    useEffect(initializeOrders, [clearOrders, filter, getOrdersList]);
+
     const { customerRole } = role;
 
     const renderOrders = (ordersList) => {

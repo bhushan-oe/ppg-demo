@@ -1,7 +1,7 @@
 const MoltinGateway = require("@moltin/sdk").gateway;
 
 const Moltin = MoltinGateway({
-  client_id: "xplLNGkEAWwR4vX59woUt7ZxW2GIEVWwoO3mUlVU74",
+  client_id: "rGMTcC8MtBtIL0hmFDR1ZUiLAygNME3WA4aYV7AkIp",//"xplLNGkEAWwR4vX59woUt7ZxW2GIEVWwoO3mUlVU74",
   application: "react-demo-store",
   // client_secret: "NuHsXYRLSOONoav10mfYW6UjG3kZJKUfq2D3zSPeFE"
 });
@@ -9,7 +9,7 @@ const Moltin = MoltinGateway({
 // export const GetProducts = () =>
 //   Moltin.Products.With('files, main_images, collections').All();
 
-// export const GetProduct = ID => Moltin.Products.Get(ID);
+export const GetProduct = ID => Moltin.Products.Get(ID);
 
 // export const GetCategories = () => Moltin.Categories.With('products').All();
 

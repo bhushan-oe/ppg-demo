@@ -27,7 +27,7 @@ function* setSelectedJob({ payload = {} }) {
   try {
     const { history, selectedJob = null } = payload;
     yield put({ type: setJob, payload: { selectedJob } });
-    history.push("/orders");
+    history.push("/orders/pendingOrders");
   } catch (err) {
     console.log(err);
   }

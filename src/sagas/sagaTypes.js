@@ -18,12 +18,19 @@ export const sagaTypes = {
     clearOrdersList: "CLEAR_ORDERSLIST_SAGA",
     getOrdersList: "GET_ORDERSLIST_SAGA",
   },
+  products: {
+    getProductList: "GET_PRODUCT_SAGA"
+  },
   role: {
     getRoleOfCustomer: "GET_ROLE_SAGA",
     resetRoleOfCustomer: "RESET_ROLE_SAGA"
   },
   approveOrder: {
     approveOrderById: "APPROVE_ORDER_SAGA"
+  },
+  cart : {
+    addToCart : "ADD_TO_CART",
+    getCart : "GET_CART"
   }
 };
 

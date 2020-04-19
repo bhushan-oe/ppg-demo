@@ -1,17 +1,19 @@
 import { GetFlowEntries, GetFlowEntry, GetOrder } from "../helper/moltin";
-import { getUserDetails, getSelectedJob } from "./selectors";
+import { getUserDetails, getSelectedJob, getSelectedAccount } from "./selectors";
 import {
   ORDER_STATUS_APPROVAL_DONE,
   ORDER_STATUS_APPROVAL_PENDING,
   ORDER_STATUS_ORDERS_APPROVED,
   ORDER_STATUS_ORDERS_PENDING,
 } from "../components/orders/ordersStatus";
-import { put, select, takeLatest, all } from "redux-saga/effects";
+import { put, select, takeLatest,call, all } from "redux-saga/effects";
 import actionTypes from "../actions/actionTypes";
 import sagaTypes from "./sagaTypes";
+import { submitOrder} from '../api/orders'
+
 
 const { orders = {} } = actionTypes;
-const { clearOrdersList, setOrdersList } = orders;
+const { clearOrdersList, setOrdersList, checkout } = orders;
 
 const generateFlowSlug = (
   filter = "ordersApproved",
@@ -76,7 +78,24 @@ function* getOrders({ payload }) {
   }
 }
 
+function* checkoutSaga({payload, history}){
+  try {
+
+    const userDetails = yield select(getUserDetails);
+    const selectedAccount = yield select(getSelectedAccount);
+    const selectedJob = yield select(getSelectedJob);
+    const {id: customerId = null } = userDetails && userDetails.data || {};
+    const resp = yield call(submitOrder, payload, selectedAccount.id, selectedJob.id, customerId);
+    
+    history.push('/thankyou')
+   
+  } catch (err) {
+    console.log(err);
+  }
+} 
+
 export function* ordersSagas() {
   yield takeLatest(sagaTypes.orders.clearOrdersList, clearOrders);
   yield takeLatest(sagaTypes.orders.getOrdersList, getOrders);
+  yield takeLatest(sagaTypes.orders.checkout, checkoutSaga);
 }

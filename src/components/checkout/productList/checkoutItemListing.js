@@ -34,8 +34,9 @@ const useStyles = makeStyles(theme => {
   }
 });
 
-const Item = ({ id, meta,name, price, handleChange, quantity }) => {
-  const { quantityInput, property, image} = useStyles();
+const Item = ({item}) => {
+  const {meta,name, quantity } = item
+  const {property, image} = useStyles();
   const imageLink = "https://wmu.epdemos.com/static/dbc38af2966a367464d252ec1bd0e50f/2244e/6ff1ccdc-3ca5-4b95-bac5-c0a040289150.jpg";
 
   return (
@@ -43,44 +44,28 @@ const Item = ({ id, meta,name, price, handleChange, quantity }) => {
       <Grid className={property} item xs={3}>
         <img className={image} src={imageLink} alt="img" />
       </Grid>
-      <Grid className={property} item xs={5}>{name}</Grid>
-      <Grid className={property} item xs={2}>`$${parseInt(price[0].amount)/100}`</Grid>
-      <Grid className={property} item xs={2}>
-        <OutlinedInput
-          className={quantityInput}
-          onChange={e => handleChange(id, e.target.value)}
-          onFocus={e => e.target.select()}
-          variant="outlined"
-          value={quantity}
-        />
-      </Grid>
+      <Grid className={property} item xs={3}>{name}</Grid>
+      <Grid className={property} item xs={2}>{meta.display_price.with_tax.unit.formatted}</Grid>
+      <Grid className={property} item xs={2}>{quantity}</Grid>
+      <Grid className={property} item xs={2}>{meta.display_price.with_tax.value.formatted}</Grid>
     </>
   );
 };
 
-const ItemSelector = ({ items,productdata, cartItems, handleChange }) => {
+const ItemListing = ({cartItems}) => {
   const classes = useStyles();
+  console.log(cartItems);
   return (
     <Grid className={classes.root} container>
       <Grid className={classes.heading} item xs={3}>Image</Grid>
-      <Grid className={classes.heading} item xs={5}>Item Name</Grid>
+      <Grid className={classes.heading} item xs={3}>Item Name</Grid>
       <Grid className={classes.heading} item xs={2}>Unit Price</Grid>
       <Grid className={classes.heading} item xs={2}>Quantity</Grid>
-      {productdata && items.map(({sku_id,id,price}) => {
-        return (
-          <Item
-            id={sku_id}
-            price={price}
-            handleChange={handleChange}
-            {...productdata[sku_id]}
-            quantity={cartItems[sku_id] && cartItems[sku_id].quantity}
-            key={sku_id}
-          />
-        );
-      })}
+      <Grid className={classes.heading} item xs={2}>Total Price</Grid>
+      {cartItems && cartItems.map((item) => <Item item={item} />)}
     </Grid>
   );
 };
 
-export default ItemSelector;
-export { ItemSelector };
+export default ItemListing;
+export { ItemListing };

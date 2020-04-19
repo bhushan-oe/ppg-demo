@@ -1,34 +1,37 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 
-import { ItemSelector } from './../../shared';
-import { mockItems } from './mockItems';
+import { ItemListing } from './checkoutItemListing';
+import { mockItems } from './mockItems'
+import sagaTypes from '../../../sagas/sagaTypes'
 
 const ProductList = connect(
-  state => {
-    console.log('state', state);
-    return {}
+  ({ cart = {} }) => {
+    return {
+      cartItems: cart.included && cart.included.items,
+    }
+  },
+  (dispatch) => {
+    const { cart = {} } = sagaTypes
+    return {
+      getCart: () => dispatch({ type: cart.getCart, payload: {} }),
+    }
   }
-)(() => {
-  //TODO: hook this with actions and selectors from the store instead
-  const [items, setItems] = useState(mockItems);
+)(({ getCart, cartItems }) => {
+  useEffect(() => {
+    getCart()
+  }, [])
+
+  //const [items, setItems] = useState(mockItems)
 
   return (
     <div>
       <h2>Cart</h2>
-      <ItemSelector
-        items={items}
-        handleChange={(itemId, quantity) => {
-          const item = items[itemId];
-          setItems({
-            ...items,
-            [itemId]: { ...item, quantity }
-          })
-        }}
-      />
+      <ItemListing
+      cartItems={cartItems} />
     </div>
-  );
-});
+  )
+})
 
-export default ProductList;
-export { ProductList };
+export default ProductList
+export { ProductList }

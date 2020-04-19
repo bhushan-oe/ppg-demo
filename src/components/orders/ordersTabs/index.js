@@ -1,103 +1,205 @@
 import { APPROVER_ITEMS, CUSTOMER_ITEMS } from "../ordersRoles";
 import { Box, Tab, Tabs, Typography } from "@material-ui/core";
-import React, { useState } from "react";
-import { BrowserRouter as Router, NavLink, Route } from "react-router-dom";
+import React, { useState,useEffect  } from "react";
+import { BrowserRouter as Router, NavLink, Route, useHistory, Switch } from "react-router-dom";
 import { connect } from "react-redux";
+import { createBrowserHistory } from "history";
+import { OrdersList } from '../ordersList';
+import { PlaceOrder } from '../placeOrder';
+import sagaTypes from "../../../sagas/sagaTypes";
 
-const BASENAME = "/orders";
+// const BASENAME = "/orders";
 
-const TabPanel = (props) => {
-  const { children, value, index, ...other } = props;
+// const TabPanel = (props) => {
+//   const { children, value, index, ...other } = props;
 
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`wrapped-tabpanel-${index}`}
-      aria-labelledby={`wrapped-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </Typography>
-  );
-};
+//   return (
+//     <Typography
+//       component="div"
+//       role="tabpanel"
+//       hidden={value !== index}
+//       id={`wrapped-tabpanel-${index}`}
+//       aria-labelledby={`wrapped-tab-${index}`}
+//       {...other}
+//     >
+//       {value === index && <Box p={3}>{children}</Box>}
+//     </Typography>
+//   );
+// };
+
+// const a11yProps = (index) => {
+//   return {
+//     id: `wrapped-tab-${index}`,
+//     "aria-controls": `wrapped-tabpanel-${index}`,
+//   };
+// };
+
+// const getTabItems = (role) => {
+//   return ((typeof role === "string" && role) || "").toString().toLowerCase() ===
+//     "approver"
+//     ? APPROVER_ITEMS
+//     : CUSTOMER_ITEMS;
+// };
+
+// const mapStateToProps = ({ authentication }) => ({ authentication });
+
+// export const OrdersTabs = connect(mapStateToProps)(
+//   ({ authentication = {} }) => {
+//     const { userDetails = {} } = authentication || {};
+//     const { data = {} } = userDetails || {};
+//     const { type = "customer" } = data || {};
+//     const currentTabItems = getTabItems(type) || [];
+//     const firstTab = [...currentTabItems].shift();
+//     const { tabValue } = firstTab || {};
+//     const [value, setValue] = useState(tabValue);
+
+
+//     const history = useHistory();
+//     //const history = createBrowserHistory({ basename: '/orders' });
+
+
+//     const renderTabs = () => {
+//       return currentTabItems.map((tabItem, index) => {
+//         const { tabLabel, tabValue } = tabItem;
+
+//         return (
+//           <Tab
+//             component={NavLink}
+//             key={`tab-${index}`}
+//             value={tabValue}
+//             label={tabLabel}
+//             to={`/orders/${tabValue}`}
+//             wrapped
+//             {...a11yProps(tabValue)}
+//           />
+//         );
+//       });
+//     };
+
+//     const renderTabsPanels = () => {
+//       return currentTabItems.map((tabItem, index) => {
+//         const { tabComponent, tabValue } = tabItem;
+
+//         return (
+//           <TabPanel key={index} value={value} index={tabValue}>
+//             <Route path={`/orders/${tabValue}`} exact>
+//               {tabComponent()}
+//             </Route>
+//           </TabPanel>
+//         );
+//       });
+//     };
+
+//     return (
+//       <Switch>
+//         <Tabs
+//           value={props.history.location.pathname}
+//           indicatorColor="primary"
+//           textColor="primary"
+//           onChange={handleChange}
+//           aria-label="wrapped label tabs example"
+//           variant="fullWidth"
+//         >
+//           {renderTabs()}
+//         </Tabs>
+//         {renderTabsPanels()}
+//         </Switch>
+//     );
+//   }
+// );
+
+   
 
 const a11yProps = (index) => {
-  return {
-    id: `wrapped-tab-${index}`,
-    "aria-controls": `wrapped-tabpanel-${index}`,
+    return {
+      id: `wrapped-tab-${index}`,
+      "aria-controls": `wrapped-tabpanel-${index}`,
+    };
   };
-};
 
-const getTabItems = (role) => {
-  return ((typeof role === "string" && role) || "").toString().toLowerCase() ===
-    "approver"
-    ? APPROVER_ITEMS
-    : CUSTOMER_ITEMS;
-};
-
-const mapStateToProps = ({ authentication, role }) => ({ authentication, role });
-
-export const OrdersTabs = connect(mapStateToProps)(
-  ({ role: {customerRole = ""} }) => {
-    const currentTabItems = getTabItems(customerRole) || [];
-    const firstTab = [...currentTabItems].shift();
-    const { tabValue } = firstTab || {};
-    const [value, setValue] = useState(tabValue);
-
-    const handleChange = (event, newValue) => {
-      setValue(newValue);
+  const mapStateToProps = ({ authentication, role, jobs }) => ({ authentication, role, jobs });
+  const mapDispatchToProps = (dispatch) => {
+    const { role = {} } = sagaTypes;
+    const { getRoleOfCustomer = "", resetRoleOfCustomer = "" } = role;
+  
+    return {
+      getRoleOfCustomer: (id , customer_id) =>
+        dispatch({
+          type: getRoleOfCustomer,
+          payload: {id, customer_id}
+        }),
+      resetRoleOfCustomer: () => dispatch({ type: resetRoleOfCustomer }),
+    }
+  }
+  const getTabItems = (role) => {
+      return ((typeof role === "string" && role) || "").toString().toLowerCase() ===
+        "approver"
+        ? APPROVER_ITEMS
+        : CUSTOMER_ITEMS;
     };
-
-    const renderTabs = () => {
-      return currentTabItems.map((tabItem, index) => {
-        const { tabLabel, tabValue } = tabItem;
-
-        return (
-          <Tab
-            component={NavLink}
-            key={`tab-${index}`}
-            value={tabValue}
-            label={tabLabel}
-            to={`/${tabValue}`}
-            wrapped
-            {...a11yProps(tabValue)}
-          />
-        );
-      });
+    const getStatus = (role) => {
+      return ((typeof role === "string" && role) || "").toString().toLowerCase() ===
+        "approver"
+        ? APPROVER_ITEMS
+        : CUSTOMER_ITEMS;
     };
+export const OrdersTabs =  connect(mapStateToProps,mapDispatchToProps)(({authentication = {}, jobs = {}, getRoleOfCustomer, role, resetRoleOfCustomer}) => {
+  const [value, setValue] = useState({});
+  const [tabs, setTabs] = useState(null);
+  const approvedStatus = "";
 
-    const renderTabsPanels = () => {
-      return currentTabItems.map((tabItem, index) => {
-        const { tabComponent, tabValue } = tabItem;
+  const { user } = authentication || {};
+  const {customer_id = null} = user || {};
+  const { selectedJob  } = jobs || {}; 
+  const {id = null } = selectedJob || {};
+  useEffect(() => {
+    resetRoleOfCustomer();
+    getRoleOfCustomer(id, customer_id);
+  },[getRoleOfCustomer,id,customer_id,resetRoleOfCustomer])
 
-        return (
-          <TabPanel key={index} value={value} index={tabValue}>
-            <Route path={`/${tabValue}`} exact>
-              {tabComponent()}
-            </Route>
-          </TabPanel>
-        );
-      });
-    };
+  useEffect(()=>{
+    const {customerRole} = role || {};
+    setTabs(getTabItems(customerRole));
+  },[role])
 
-    return (
-      <Router basename={BASENAME}>
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+      return (
+        <Route
+        path="/"
+        render={({ location }) => (
+          <>
         <Tabs
-          value={value}
+          value={location.pathname}
           indicatorColor="primary"
           textColor="primary"
           onChange={handleChange}
           aria-label="wrapped label tabs example"
           variant="fullWidth"
         >
-          {renderTabs()}
+         
+          <>
+          <Tab label="Approve Orders" component={NavLink} to="/orders/approvedOrders" {...a11yProps(1)}/>
+          <Tab label="Pending Orders" component={NavLink} to="/orders/pendingOrders" {...a11yProps(2)}/>
+          <Tab
+            label="Place Order"
+            component={NavLink}
+            to="/orders/placeOrder"
+            {...a11yProps(3)}
+          />
+          </>
         </Tabs>
-        {renderTabsPanels()}
-      </Router>
-    );
-  }
-);
+        <Switch>
+          <Route path="/orders/approvedOrders" render={() => tabs && tabs[0].tabComponent()} />
+          <Route path="/orders/pendingOrders" render={() => tabs && tabs[1].tabComponent()} />
+          <Route path="/orders/placeOrder" render={() => tabs && tabs[2].tabComponent()} />
+        </Switch>
+       
+        </>
+        )}
+        />
+    ); 
+})
 
 export default OrdersTabs;
