@@ -34,14 +34,12 @@ const useStyles = makeStyles(theme => {
   }
 });
 
-const Item = ({ id, meta,name, price, handleChange, quantity }) => {
+const Item = ({ id, meta,name, imageurl, price, handleChange, quantity }) => {
   const { quantityInput, property, image} = useStyles();
-  const imageLink = "https://wmu.epdemos.com/static/dbc38af2966a367464d252ec1bd0e50f/2244e/6ff1ccdc-3ca5-4b95-bac5-c0a040289150.jpg";
-
   return (
     <>
       <Grid className={property} item xs={3}>
-        <img className={image} src={imageLink} alt="img" />
+        <img className={image} src={imageurl} alt="img" />
       </Grid>
       <Grid className={property} item xs={5}>{name}</Grid>
       <Grid className={property} item xs={2}>{`$${parseInt(price[0].amount)/100}`}</Grid>
