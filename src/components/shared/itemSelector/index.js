@@ -44,7 +44,7 @@ const Item = ({ id, meta,name, price, handleChange, quantity }) => {
         <img className={image} src={imageLink} alt="img" />
       </Grid>
       <Grid className={property} item xs={5}>{name}</Grid>
-      <Grid className={property} item xs={2}>`$${parseInt(price[0].amount)/100}`</Grid>
+      <Grid className={property} item xs={2}>{`$${parseInt(price[0].amount)/100}`}</Grid>
       <Grid className={property} item xs={2}>
         <OutlinedInput
           className={quantityInput}

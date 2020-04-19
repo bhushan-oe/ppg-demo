@@ -7,6 +7,15 @@ import { createBrowserHistory } from "history";
 import { OrdersList } from '../ordersList';
 import { PlaceOrder } from '../placeOrder';
 import sagaTypes from "../../../sagas/sagaTypes";
+import { makeStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
 
 // const BASENAME = "/orders";
 
@@ -144,6 +153,9 @@ const a11yProps = (index) => {
         : CUSTOMER_ITEMS;
     };
 export const OrdersTabs =  connect(mapStateToProps,mapDispatchToProps)(({authentication = {}, jobs = {}, getRoleOfCustomer, role, resetRoleOfCustomer}) => {
+  
+  const classes = useStyles();
+
   const [value, setValue] = useState({});
   const [tabs, setTabs] = useState(null);
   const approvedStatus = "";
@@ -169,7 +181,7 @@ export const OrdersTabs =  connect(mapStateToProps,mapDispatchToProps)(({authent
         <Route
         path="/"
         render={({ location }) => (
-          <>
+          <div className={classes.root}>
         <Tabs
           value={location.pathname}
           indicatorColor="primary"
@@ -196,7 +208,7 @@ export const OrdersTabs =  connect(mapStateToProps,mapDispatchToProps)(({authent
           <Route path="/orders/placeOrder" render={() => tabs && tabs[2].tabComponent()} />
         </Switch>
        
-        </>
+        </div>
         )}
         />
     ); 
