@@ -69,7 +69,7 @@ function* getOrders({ payload }) {
   }
 }
 
-function* checkoutSaga({payload}){
+function* checkoutSaga({payload, history}){
   try {
 
     const userDetails = yield select(getUserDetails);
@@ -77,7 +77,8 @@ function* checkoutSaga({payload}){
     const selectedJob = yield select(getSelectedJob);
     const {id: customerId = null } = userDetails && userDetails.data || {};
     const resp = yield call(submitOrder, payload, selectedAccount.id, selectedJob.id, customerId);
- 
+    
+    history.push('/thankyou')
    
   } catch (err) {
     console.log(err);

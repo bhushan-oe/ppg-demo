@@ -2,14 +2,14 @@ export const addresses = [
   {
     id: "1",
     first_name: "John",
-    last_name: "Doe",
-    company_name: "Moltin",
-    line_1: "2nd Floor British India House",
-    line_2: "15 Carliol Square",
-    city: "Newcastle upon Tyne",
-    postcode: "NE1 6UF",
-    county: "Tyne & Wear",
-    country: "UK"
+        last_name: "Doe",
+        company_name: "Moltin",
+        line_1: "2nd Floor British India House",
+        line_2: "15 Carliol Square",
+        city: "Newcastle upon Tyne",
+        postcode: "NE1 6UF",
+        county: "Tyne & Wear",
+        country: "UK"
   },
   {
     id: "2",
@@ -19,7 +19,9 @@ export const addresses = [
     line_1: "1600 Amphitheatre Parkway",
     city: "Mountain View",
     postcode: "94043",
+    county: "Tyne & Wear",
     country: "US"
+    
   },
   {
     id: "3",
@@ -29,6 +31,7 @@ export const addresses = [
     line_1: "One Microsoft Way",
     city: "Washington",
     postcode: "98053",
+    county: "Tyne & Wear",
     country: "US"
   }
 ];

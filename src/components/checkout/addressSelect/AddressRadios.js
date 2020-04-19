@@ -79,6 +79,7 @@ const AddressRadios = ({ selectedId, handleChange, addresses }) => {
             <FieldGroup>
               <Field label="Post Code" value={address.postcode} />
               <Field label="Country" value={address.country} />
+              <Field label="County" value={address.county} />
             </FieldGroup>
           </div>
         );
