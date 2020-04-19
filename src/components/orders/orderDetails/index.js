@@ -1,22 +1,21 @@
 import {
   Grid,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
   makeStyles,
-  Paper,
-  Typography,
 } from "@material-ui/core";
 import { connect } from "react-redux";
-import { ExpandMore } from "@material-ui/icons";
 import OrderApproveButton from "../orderApproveButton";
 import { ORDER_STATUS_APPROVAL_PENDING } from "../ordersStatus";
 import React from "react";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    'border-bottom': '2px solid gray',
+    'align-items': 'center'
+  },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
+    padding: '15px'
   },
   label: {
     textAlign: "right",
@@ -27,68 +26,44 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   paper: {
-    backgroundColor: "#eee",
     width: "100%",
     padding: "10px",
+    "margin-bottom": "20px",
+    background: "rgba(204,204,204,0.3)",
+    "box-shadow": "none !important"
   },
 }));
 
-const mapStateToProps = ({ authentication }) => ({ authentication });
+const mapStateToProps = ({ orders, role }) => ({ orders, role });
 
 const mapDispatchToProps = ({}) => ({});
 
 export const OrderDetails = connect(
   mapStateToProps,
   mapDispatchToProps
-)(({ authentication = {}, filter, index }) => {
+)(({ filter, index, order, role }) => {
   const classes = useStyles();
-  const { userDetails = {} } = authentication || {};
-  const { data = {} } = userDetails || {};
-  const { type = "customer" } = data;
+  const { customerRole } = role;
   const displayApproveButton =
-    type === "approver" && filter === ORDER_STATUS_APPROVAL_PENDING;
+    customerRole === "approver" && filter === ORDER_STATUS_APPROVAL_PENDING;
 
   return (
-    <ExpansionPanel>
-      <ExpansionPanelSummary
-        aria-controls={`panel-${index}-content`}
-        expandIcon={<ExpandMore />}
-        id={`panel-${index}-header`}
-      >
-        <Typography className={classes.heading}>Order</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
-        <Paper className={classes.paper}>
-          <Grid container spacing={3}>
-            <Grid className={classes.label} item xs={2}>
-              <Typography>Customer:</Typography>
-            </Grid>
-            <Grid className={classes.content} item xs={4}>
-              <Typography>ORDER_CUSTOMER_NAME</Typography>
-            </Grid>
-            <Grid className={classes.label} item xs={2}>
-              <Typography>Date:</Typography>
-            </Grid>
-            <Grid className={classes.content} item xs={4}>
-              <Typography>ORDER_DATE</Typography>
-            </Grid>
-            <Grid className={classes.label} item xs={2}>
-              <Typography></Typography>
-            </Grid>
-            <Grid className={classes.content} item xs={4}>
-              <Typography></Typography>
-            </Grid>
-            <Grid className={classes.label} item xs={2}>
-              <Typography>Total:</Typography>
-            </Grid>
-            <Grid className={classes.content} item xs={4}>
-              <Typography>ORDER_TOTAL_PRICE</Typography>
-            </Grid>
-          </Grid>
+    customerRole === "approver" ? (
+      <Grid className={classes.root} container>
+        <Grid className={classes.heading} item xs={5}>{order.order_id}</Grid>
+        <Grid className={classes.heading} item xs={3}>15th Oct 2019</Grid>
+        <Grid className={classes.heading} item xs={2}>$100</Grid>
+        <Grid className={classes.heading} item xs={2}>
           <OrderApproveButton show={displayApproveButton} />
-        </Paper>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+        </Grid>
+      </Grid>
+      ) : (
+        <Grid className={classes.root} container>
+          <Grid className={classes.heading} item xs={5}>{order.order_id}</Grid>
+          <Grid className={classes.heading} item xs={4}>15th Oct 2019</Grid>
+          <Grid className={classes.heading} item xs={3}>$100</Grid>
+        </Grid>
+      )    
   );
 });
 

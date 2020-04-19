@@ -1,4 +1,4 @@
-import { GetFlowEntries, GetFlowEntry } from "../helper/moltin";
+import { GetFlowEntries, GetFlowEntry, GetOrder } from "../helper/moltin";
 import { getUserDetails, getSelectedJob, getSelectedAccount } from "./selectors";
 import {
   ORDER_STATUS_APPROVAL_DONE,
@@ -6,7 +6,7 @@ import {
   ORDER_STATUS_ORDERS_APPROVED,
   ORDER_STATUS_ORDERS_PENDING,
 } from "../components/orders/ordersStatus";
-import { put, select, takeLatest,call } from "redux-saga/effects";
+import { put, select, takeLatest,call, all } from "redux-saga/effects";
 import actionTypes from "../actions/actionTypes";
 import sagaTypes from "./sagaTypes";
 import { submitOrder} from '../api/orders'
@@ -62,6 +62,15 @@ function* getOrders({ payload }) {
     const slug = generateFlowSlug(filter, type, id, selectedJob);
     const ordersData = yield GetFlowEntries(slug, token);
     const { data: orders = [] } = ordersData;
+
+    // const getOrderDetails = yield all(
+    //   (
+    //     (Array.isArray(orders) &&
+    //     orders.length &&
+    //     orders) ||
+    //     []
+    //   ).map((items) => items && GetOrder(items.order_id))
+    // );
 
     yield put({ type: setOrdersList, payload: { orders } });
   } catch (err) {

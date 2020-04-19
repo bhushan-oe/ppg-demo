@@ -1,11 +1,13 @@
 import { APPROVER_ITEMS, CUSTOMER_ITEMS } from "../ordersRoles";
 import { Box, Tab, Tabs, Typography } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState,useEffect  } from "react";
 import { BrowserRouter as Router, NavLink, Route, useHistory, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { createBrowserHistory } from "history";
 import { OrdersList } from '../ordersList';
 import { PlaceOrder } from '../placeOrder';
+import sagaTypes from "../../../sagas/sagaTypes";
+
 // const BASENAME = "/orders";
 
 // const TabPanel = (props) => {
@@ -115,8 +117,50 @@ const a11yProps = (index) => {
     };
   };
 
-export const OrdersTabs = () => {
+  const mapStateToProps = ({ authentication, role, jobs }) => ({ authentication, role, jobs });
+  const mapDispatchToProps = (dispatch) => {
+    const { role = {} } = sagaTypes;
+    const { getRoleOfCustomer = "", resetRoleOfCustomer = "" } = role;
+  
+    return {
+      getRoleOfCustomer: (id , customer_id) =>
+        dispatch({
+          type: getRoleOfCustomer,
+          payload: {id, customer_id}
+        }),
+      resetRoleOfCustomer: () => dispatch({ type: resetRoleOfCustomer }),
+    }
+  }
+  const getTabItems = (role) => {
+      return ((typeof role === "string" && role) || "").toString().toLowerCase() ===
+        "approver"
+        ? APPROVER_ITEMS
+        : CUSTOMER_ITEMS;
+    };
+    const getStatus = (role) => {
+      return ((typeof role === "string" && role) || "").toString().toLowerCase() ===
+        "approver"
+        ? APPROVER_ITEMS
+        : CUSTOMER_ITEMS;
+    };
+export const OrdersTabs =  connect(mapStateToProps,mapDispatchToProps)(({authentication = {}, jobs = {}, getRoleOfCustomer, role, resetRoleOfCustomer}) => {
   const [value, setValue] = useState({});
+  const [tabs, setTabs] = useState(null);
+  const approvedStatus = "";
+
+  const { user } = authentication || {};
+  const {customer_id = null} = user || {};
+  const { selectedJob  } = jobs || {}; 
+  const {id = null } = selectedJob || {};
+  useEffect(() => {
+    resetRoleOfCustomer();
+    getRoleOfCustomer(id, customer_id);
+  },[getRoleOfCustomer,id,customer_id,resetRoleOfCustomer])
+
+  useEffect(()=>{
+    const {customerRole} = role || {};
+    setTabs(getTabItems(customerRole));
+  },[role])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -147,15 +191,15 @@ export const OrdersTabs = () => {
           </>
         </Tabs>
         <Switch>
-          <Route path="/orders/approvedOrders" render={() => <OrdersList/>} />
-          <Route path="/orders/pendingOrders" render={() => <OrdersList/>} />
-          <Route path="/orders/placeOrder" render={() => <PlaceOrder/>} />
+          <Route path="/orders/approvedOrders" render={() => tabs && tabs[0].tabComponent()} />
+          <Route path="/orders/pendingOrders" render={() => tabs && tabs[1].tabComponent()} />
+          <Route path="/orders/placeOrder" render={() => tabs && tabs[2].tabComponent()} />
         </Switch>
        
         </>
         )}
         />
     ); 
-}
+})
 
 export default OrdersTabs;

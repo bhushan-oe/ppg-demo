@@ -1,4 +1,4 @@
-export const ORDER_STATUS_APPROVAL_DONE = "approvalPending";
+export const ORDER_STATUS_APPROVAL_DONE = "approvedOrders";
 
 export const ORDER_STATUS_APPROVAL_PENDING = "approvalPending";
 
