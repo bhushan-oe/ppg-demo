@@ -16,8 +16,10 @@ export const ThankYou = connect(mapStateToProps)(({ logged, location }) => {
   //if(logged){
     return (
       <PageWrapper>
-        {`Thank you! Your Order has been placed successfully. Details will be sent through email to you!
-    Your order id is "${order_id}"`}
+        <h3>{`Thank you! Your Order has been placed successfully. 
+        Your order id is "${order_id}"
+        Details will be sent through email to you!
+    `}</h3>
       </PageWrapper>
     );
   // }

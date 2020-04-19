@@ -62,7 +62,7 @@ function* getOrders({ payload }) {
     const slug = generateFlowSlug(filter, type, id, selectedJob);
     const ordersData = yield GetFlowEntries(slug, token);
     const { data: orders = [] } = ordersData;
-
+    //const adminToken = localStorage.getItem("AccessToken");
     const getOrderDetails = yield all(
       (
         (Array.isArray(orders) &&

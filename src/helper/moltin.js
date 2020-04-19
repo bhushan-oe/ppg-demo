@@ -2,8 +2,7 @@ const MoltinGateway = require("@moltin/sdk").gateway;
 
 const Moltin = MoltinGateway({
   client_id: "rGMTcC8MtBtIL0hmFDR1ZUiLAygNME3WA4aYV7AkIp",//"xplLNGkEAWwR4vX59woUt7ZxW2GIEVWwoO3mUlVU74",
-  application: "react-demo-store",
-  // client_secret: "NuHsXYRLSOONoav10mfYW6UjG3kZJKUfq2D3zSPeFE"
+  client_secret: "NuHsXYRLSOONoav10mfYW6UjG3kZJKUfq2D3zSPeFE"
 });
 
 // export const GetProducts = () =>
@@ -36,7 +35,7 @@ export const GetProduct = ID => Moltin.Products.Get(ID);
 
 // export const Checkout = data => Moltin.Cart().Checkout(data);
 
-export const GetOrder = ID => Moltin.Orders.Get(ID);
+export const GetOrder = (ID,token) => Moltin.Orders.Get(ID,token);
 
 // export const OrderPay = (ID, data) => Moltin.Orders.Payment(ID, data);
 

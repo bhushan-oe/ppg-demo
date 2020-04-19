@@ -15,8 +15,8 @@ function* handleLogin({ payload }) {
       localStorage.setItem("AccessToken", resp.data.access_token);
       yield put({ type: login, payload: { user: resp.data } });
 
-      const { data } = yield GetCustomerToken(user, pass);
-      const customerdata = yield GetCustomerDetails(data.id, data.token);
+      //const { data } = yield GetCustomerToken(user, pass);
+      const customerdata = yield GetCustomerDetails(resp.data.customer_id);
 
       yield put({
         type: setUserDetails,
