@@ -18,7 +18,7 @@ function* addToCart({ payload = {} }) {
         const {sku_id:sku, price, quantity } = cartItems[e]
         return {sku, price, quantity };
       })
-    //const resp = yield call(AddToCart,cartItemsArr, selectedAccount.id, selectedJob.id, userDetails.data.id);
+    const resp = yield call(AddToCart,cartItemsArr, selectedAccount.id, selectedJob.id, userDetails.data.id);
  
     history.push("/checkout");
 

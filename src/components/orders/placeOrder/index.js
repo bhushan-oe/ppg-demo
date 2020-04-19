@@ -47,16 +47,14 @@ export const PlaceOrder = connect(
     getProductList({selectedJob})
   },[selectedJob, getProductList]);
   const [cartItems, setCartItems] = useState({});
-  console.log(cartItems);
 
   const addToCartHandler = useCallback(() => {
     //console.log(cartItems);
-    addToCart({cartItems, history});
     if (Object.keys(cartItems).length !== 0) 
     { 
       addToCart({cartItems, history}); 
     } else {
-     //  alert("Select Product Quantity");
+       alert("Select Product Quantity");
     }
   }, [cartItems]);
 

@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => {
   }
 });
 
-const Item = ({ id, meta,name, handleChange, quantity }) => {
+const Item = ({ id, meta,name, price, handleChange, quantity }) => {
   const { quantityInput, property, image} = useStyles();
   const imageLink = "https://wmu.epdemos.com/static/dbc38af2966a367464d252ec1bd0e50f/2244e/6ff1ccdc-3ca5-4b95-bac5-c0a040289150.jpg";
 
@@ -44,7 +44,7 @@ const Item = ({ id, meta,name, handleChange, quantity }) => {
         <img className={image} src={imageLink} alt="img" />
       </Grid>
       <Grid className={property} item xs={5}>{name}</Grid>
-      <Grid className={property} item xs={2}>{`${meta.display_price.with_tax.formatted}`}</Grid>
+      <Grid className={property} item xs={2}>{price/100}</Grid>
       <Grid className={property} item xs={2}>
         <OutlinedInput
           className={quantityInput}

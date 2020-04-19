@@ -13,10 +13,9 @@ const App = () => {
       <Route path="/" component={Login} exact />
       <Route path="/accounts" component={Accounts} exact />
       <Route path="/jobs" component={Jobs} exact />
-      <Route path="/orders" component={Orders} exact />
       <Route path="/checkout" component={Checkout} exact />
       <Route path="/thankyou" component={ThankYou} exact />      
-      <Route path="/:page" component={OrdersPages} />      
+      <Route path="/orders/:page" component={OrdersPages} />      
     </Router>
   );
 };
