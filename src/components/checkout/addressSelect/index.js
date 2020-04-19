@@ -5,13 +5,14 @@ import { Button, Divider } from "@material-ui/core";
 import sagaTypes from "../../../sagas/sagaTypes";
 import { addresses } from './mockAddresses';
 import { AddressRadios } from './AddressRadios';
+import { useHistory } from "react-router-dom";
 
 const mapDispatchToProps = dispatch => {
   const { orders = {} } = sagaTypes;
   const { checkout } = orders;
 
   return {
-    doCheckout: addresses => dispatch({ type: checkout, payload: addresses }),
+    doCheckout: (addresses,history) => dispatch({ type: checkout, payload: addresses, history }),
   };
 };
 
@@ -19,17 +20,21 @@ const AddressSelect = connect(
   null,
   mapDispatchToProps
 )(({ doCheckout }) => {
+  const history = useHistory();
+
   const [billingAddressId, setBillingAddressId] = useState('1');
   const [shippingAddressId, setShippingAddressId] = useState('1');
 
   const onFormSubmit = e => {
     e.preventDefault();
     e.stopPropagation();
+    const {id, ...billing_address} = addresses[billingAddressId];
+    const {id: sid, ...shipping_address} = addresses[shippingAddressId];
 
     doCheckout({
-      billing_address: addresses[billingAddressId],
-      shipping_address: addresses[shippingAddressId],
-    });
+      billing_address,
+      shipping_address,
+    },history);
   };
 
   return (
