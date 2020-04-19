@@ -19,22 +19,22 @@ const useStyles = makeStyles((theme) => ({
 
 // const BASENAME = "/orders";
 
-// const TabPanel = (props) => {
-//   const { children, value, index, ...other } = props;
+const TabPanel = (props) => {
+  const { children, value, index, ...other } = props;
 
-//   return (
-//     <Typography
-//       component="div"
-//       role="tabpanel"
-//       hidden={value !== index}
-//       id={`wrapped-tabpanel-${index}`}
-//       aria-labelledby={`wrapped-tab-${index}`}
-//       {...other}
-//     >
-//       {value === index && <Box p={3}>{children}</Box>}
-//     </Typography>
-//   );
-// };
+  return (
+    <Typography
+    component="div"
+    role="tabpanel"
+    hidden={value !== index}
+    id={`simple-tabpanel-${index}`}
+    aria-labelledby={`simple-tab-${index}`}
+    {...other}
+    >
+      {value === index && <Box p={3}>{children}</Box>}
+    </Typography>
+  );
+};
 
 // const a11yProps = (index) => {
 //   return {
@@ -120,10 +120,11 @@ const useStyles = makeStyles((theme) => ({
    
 
 const a11yProps = (index) => {
-    return {
-      id: `wrapped-tab-${index}`,
-      "aria-controls": `wrapped-tabpanel-${index}`,
-    };
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+
   };
 
   const mapStateToProps = ({ authentication, role, jobs }) => ({ authentication, role, jobs });
@@ -146,19 +147,13 @@ const a11yProps = (index) => {
         ? APPROVER_ITEMS
         : CUSTOMER_ITEMS;
     };
-    const getStatus = (role) => {
-      return ((typeof role === "string" && role) || "").toString().toLowerCase() ===
-        "approver"
-        ? APPROVER_ITEMS
-        : CUSTOMER_ITEMS;
-    };
+  
 export const OrdersTabs =  connect(mapStateToProps,mapDispatchToProps)(({authentication = {}, jobs = {}, getRoleOfCustomer, role, resetRoleOfCustomer}) => {
   
   const classes = useStyles();
 
   const [value, setValue] = useState({});
   const [tabs, setTabs] = useState(null);
-  const approvedStatus = "";
 
   const { user } = authentication || {};
   const {customer_id = null} = user || {};
@@ -174,8 +169,13 @@ export const OrdersTabs =  connect(mapStateToProps,mapDispatchToProps)(({authent
     setTabs(getTabItems(customerRole));
   },[role])
 
+  useEffect(()=>{
+    tabs && setValue(tabs[0].tabValue);
+  },[tabs])
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    console.log("changed",newValue)
   };
       return (
         <Route
@@ -183,7 +183,7 @@ export const OrdersTabs =  connect(mapStateToProps,mapDispatchToProps)(({authent
         render={({ location }) => (
           <div className={classes.root}>
         <Tabs
-          value={location.pathname}
+          value={value}
           indicatorColor="primary"
           textColor="primary"
           onChange={handleChange}
@@ -191,22 +191,23 @@ export const OrdersTabs =  connect(mapStateToProps,mapDispatchToProps)(({authent
           variant="fullWidth"
         >
          
-          <>
-          <Tab label="Approve Orders" component={NavLink} to="/orders/approvedOrders" {...a11yProps(1)}/>
-          <Tab label="Pending Orders" component={NavLink} to="/orders/pendingOrders" {...a11yProps(2)}/>
-          <Tab
-            label="Place Order"
-            component={NavLink}
-            to="/orders/placeOrder"
-            {...a11yProps(3)}
-          />
-          </>
+          
+          {tabs && tabs.map((t,i)=>{
+            return <Tab label={t.tabLabel} value={`${t.tabValue}`} component={NavLink} to={`/orders/${t.tabValue}`} {...a11yProps(t.tabValue)}/>
+          })}         
+          
+          
         </Tabs>
-        <Switch>
-          <Route path="/orders/approvedOrders" render={() => tabs && tabs[0].tabComponent()} />
-          <Route path="/orders/pendingOrders" render={() => tabs && tabs[1].tabComponent()} />
-          <Route path="/orders/placeOrder" render={() => tabs && tabs[2].tabComponent()} />
-        </Switch>
+        {tabs && tabs.map((t,i)=>{
+          return (<TabPanel key={i} value={value} index={t.tabValue}>
+                  
+                  <Route path={`/orders/${t.tabValue}`} render={() => t.tabComponent()} exact />
+                  
+            </TabPanel>)
+        })}
+        
+                  
+        
        
         </div>
         )}
