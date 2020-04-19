@@ -75,11 +75,12 @@ export const OrdersList = connect(
         <>
           {customerRole === "approver" ? (
             <Grid className={classes.root} container>
-            <Grid className={classes.heading} item xs={5}>Order #</Grid>
-            <Grid className={classes.heading} item xs={3}>Order Placed On</Grid>
-            <Grid className={classes.heading} item xs={2}>Order Total</Grid>
-            <Grid className={classes.heading} item xs={2}></Grid>
-          </Grid>
+              <Grid className={classes.heading} item xs={3}>Order #</Grid>
+              <Grid className={classes.heading} item xs={3}>Order Placed On</Grid>
+              <Grid className={classes.heading} item xs={2}>Order Total</Grid>
+              <Grid className={classes.heading} item xs={2}></Grid>
+              <Grid className={classes.heading} item xs={2}></Grid>
+            </Grid>
           ): (
             <Grid className={classes.root} container>
               <Grid className={classes.heading} item xs={5}>Order #</Grid>
@@ -96,7 +97,7 @@ export const OrdersList = connect(
       );
     };
 
-    return <Container>{renderOrdersList()}</Container>;
+    return <Container className={classes.containerWrapper}>{renderOrdersList()}</Container>;
   }
 );
 

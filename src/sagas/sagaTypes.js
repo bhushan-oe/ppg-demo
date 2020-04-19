@@ -21,6 +21,9 @@ export const sagaTypes = {
   role: {
     getRoleOfCustomer: "GET_ROLE_SAGA",
     resetRoleOfCustomer: "RESET_ROLE_SAGA"
+  },
+  approveOrder: {
+    approveOrderById: "APPROVE_ORDER_SAGA"
   }
 };
 

@@ -3,6 +3,7 @@ const MoltinGateway = require("@moltin/sdk").gateway;
 const Moltin = MoltinGateway({
   client_id: "xplLNGkEAWwR4vX59woUt7ZxW2GIEVWwoO3mUlVU74",
   application: "react-demo-store",
+  // client_secret: "NuHsXYRLSOONoav10mfYW6UjG3kZJKUfq2D3zSPeFE"
 });
 
 // export const GetProducts = () =>

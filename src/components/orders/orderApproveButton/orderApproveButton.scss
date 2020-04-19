@@ -2,4 +2,8 @@
     padding: 10px;
     border: none;
     background: rgb(10,121,170);
+    color: white;
+    &:hover {
+        cursor: pointer;
+    }
 }
