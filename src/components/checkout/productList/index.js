@@ -29,15 +29,6 @@ const ProductList = connect(
       <h2>Cart</h2>
       <ItemListing
       cartItems={cartItems} />
-      {/* {cartItems &&
-        cartItems.map((item) => {
-          return (<div style={{borderBottom: "1px solid"}}>
-            {`${item.name}${item.sku}
-            ${item.unit_price.amount / 100}
-            ${item.value.amount / 100}
-            ${item.quantity}`}
-          </div>)
-        })} */}
     </div>
   )
 })
