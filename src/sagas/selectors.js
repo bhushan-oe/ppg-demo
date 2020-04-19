@@ -68,3 +68,14 @@ export const getCartItems = (state) => {
   const {included = {}} = getCart(state);
   return included && included.items;
 }
+
+export const getRole = (state) => {
+  const {role = {}} = getState(state) || {};
+  return role;
+} 
+
+
+export const getCustomerRole = (state) => {
+  const {customerRole = {}} = getRole(state) || {};
+  return customerRole;
+} 
