@@ -86,8 +86,8 @@ function* checkoutSaga({payload, history}){
     const selectedJob = yield select(getSelectedJob);
     const {id: customerId = null } = userDetails && userDetails.data || {};
     const resp = yield call(submitOrder, payload, selectedAccount.id, selectedJob.id, customerId);
-    
-    history.push('/thankyou')
+    const {data} = resp;
+    history.push('/thankyou?order_id='+ data.order_id);
    
   } catch (err) {
     console.log(err);
