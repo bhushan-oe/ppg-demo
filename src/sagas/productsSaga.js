@@ -1,4 +1,4 @@
-import { GetProduct, GetFlowEntry } from "../helper/moltin";
+import { GetProduct, GetFlowEntry, getFile } from "../helper/moltin";
 import { getUserDetails, getSelectedJobProductIds } from "./selectors";
 
 import { put, select, takeLatest, all } from "redux-saga/effects";
@@ -38,7 +38,13 @@ function* getProducts({ payload }) {
       return GetProduct(item.sku_id, token);
     }))
     const skuProducts = {};
-    productDetails.map(item=>{
+    const imageurls = yield all(
+      productDetails.map(item =>{
+        return getFile(item.data.relationships.main_image.data.id)
+      })
+    )
+    productDetails.map((item, index)=>{
+      item.data.imageurl = imageurls[index].data.link.href;
       if (item.data && item.data.id) {
         skuProducts[item.data.id] = item.data;
       }

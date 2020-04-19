@@ -52,3 +52,5 @@ export const GetFlowEntries = (slug) => Moltin.Flows.GetEntries(slug);
 export const GetFlowEntry = (slug, entry) => Moltin.Flows.GetEntry(slug, entry);
 
 //export const GetCustomerDetails2 = (data) => Moltin.Addresses.All(data);
+
+export const getFile = (fileId) => Moltin.Files.Get(fileId)
