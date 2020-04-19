@@ -4,6 +4,8 @@ export const loginUrl = `${baseUrl}/login`;
 
 export const getRoleById = `${baseUrl}/roles`;
 
+export const approveOrder = `${baseUrl}/orders/approve`;
+
 export const addToCart = `${baseUrl}/carts`;
 
 export const orders = `${baseUrl}/orders`;

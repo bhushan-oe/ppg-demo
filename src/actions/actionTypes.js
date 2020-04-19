@@ -27,6 +27,9 @@ const actionTypes = {
     getRoleOfCustomer: "GET_ROLE_ACTION",
     resetRoleOfCustomer: "RESET_ROLE_ACTION"
   },
+  approveOrder: {
+    approveOrderById: "APPROVE_ORDER_ACTION"
+  },
   cart: {
     setCart : "SET_CART"  
   }

@@ -50,11 +50,20 @@ export const OrderDetails = connect(
   return (
     customerRole === "approver" ? (
       <Grid className={classes.root} container>
-        <Grid className={classes.heading} item xs={5}>{order.order_id}</Grid>
+        <Grid className={classes.heading} item xs={3}>{order.order_id}</Grid>
         <Grid className={classes.heading} item xs={3}>15th Oct 2019</Grid>
         <Grid className={classes.heading} item xs={2}>$100</Grid>
         <Grid className={classes.heading} item xs={2}>
-          <OrderApproveButton show={displayApproveButton} />
+          <OrderApproveButton 
+            show={displayApproveButton} 
+            orderId={order.order_id}
+            title={"Approve"} />
+        </Grid>
+        <Grid className={classes.heading} item xs={2}>
+          <OrderApproveButton 
+            show={displayApproveButton} 
+            orderId={order.order_id}
+            title={"Reject"} />
         </Grid>
       </Grid>
       ) : (

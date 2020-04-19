@@ -25,6 +25,9 @@ export const sagaTypes = {
     getRoleOfCustomer: "GET_ROLE_SAGA",
     resetRoleOfCustomer: "RESET_ROLE_SAGA"
   },
+  approveOrder: {
+    approveOrderById: "APPROVE_ORDER_SAGA"
+  },
   cart : {
     addToCart : "ADD_TO_CART",
     getCart : "GET_CART"

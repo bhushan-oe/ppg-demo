@@ -63,16 +63,16 @@ function* getOrders({ payload }) {
     const ordersData = yield GetFlowEntries(slug, token);
     const { data: orders = [] } = ordersData;
 
-    // const getOrderDetails = yield all(
-    //   (
-    //     (Array.isArray(orders) &&
-    //     orders.length &&
-    //     orders) ||
-    //     []
-    //   ).map((items) => items && GetOrder(items.order_id))
-    // );
+    const getOrderDetails = yield all(
+      (
+        (Array.isArray(orders) &&
+        orders.length &&
+        orders) ||
+        []
+      ).map((items) => items && GetOrder(items.order_id))
+    );
 
-    yield put({ type: setOrdersList, payload: { orders } });
+    yield put({ type: setOrdersList, payload: { getOrderDetails } });
   } catch (err) {
     console.log(err);
   }

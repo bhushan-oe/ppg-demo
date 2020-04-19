@@ -5,6 +5,7 @@ import { jobsSagas } from "./jobsSagas";
 import { ordersSagas } from "./ordersSagas";
 import { productSaga} from "./productsSaga";
 import { getRoleSagas } from "./getRoleSagas";
+import { approveOrderSagas } from "./approveOrderSagas";
 import { cartSagas } from "./cartSagas";
 
 export default function* rootSaga() {
@@ -13,6 +14,8 @@ export default function* rootSaga() {
     accountsSagas(),
     jobsSagas(),
     ordersSagas(),
+    getRoleSagas(),
+    approveOrderSagas(),
     productSaga(),
     getRoleSagas(),
     cartSagas()
