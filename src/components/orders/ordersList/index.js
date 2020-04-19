@@ -3,6 +3,7 @@ import React, { useCallback, useEffect } from "react";
 import { connect } from "react-redux";
 import sagaTypes from "../../../sagas/sagaTypes";
 import OrderDetails from "../orderDetails";
+import { ORDER_STATUS_APPROVAL_PENDING } from "../ordersStatus";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -74,18 +75,20 @@ export const OrdersList = connect(
     const renderOrdersList = () => {
       return Array.isArray(ordersList) && ordersList.length ? (
         <>
-          {customerRole === "approver" ? (
+          {customerRole === "approver" && filter === ORDER_STATUS_APPROVAL_PENDING ? (
             <Grid className={classes.root} container>
-              <Grid className={classes.heading} item xs={3}>Order #</Grid>
-              <Grid className={classes.heading} item xs={3}>Order Placed On</Grid>
+              <Grid className={classes.heading} item xs={2}>Order #</Grid>
+              <Grid className={classes.heading} item xs={2}>Customer Name</Grid>
+              <Grid className={classes.heading} item xs={2}>Order Placed On</Grid>
               <Grid className={classes.heading} item xs={2}>Order Total</Grid>
               <Grid className={classes.heading} item xs={2}></Grid>
               <Grid className={classes.heading} item xs={2}></Grid>
             </Grid>
           ): (
             <Grid className={classes.root} container>
-              <Grid className={classes.heading} item xs={5}>Order #</Grid>
-              <Grid className={classes.heading} item xs={4}>Order Placed On</Grid>
+              <Grid className={classes.heading} item xs={3}>Order #</Grid>
+              <Grid className={classes.heading} item xs={3}>Customer Name</Grid>
+              <Grid className={classes.heading} item xs={3}>Order Placed On</Grid>
               <Grid className={classes.heading} item xs={3}>Order Total</Grid>
             </Grid>
           )}

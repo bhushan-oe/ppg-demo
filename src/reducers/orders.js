@@ -13,8 +13,8 @@ export default function accounts(state = initialState, action) {
     case clearOrdersList:
       return { ...state, ordersList: [] };
     case setOrdersList:
-      const { orders = [] } = payload;
-      return { ...state, ordersList: orders };
+      const { orderDetails = [] } = payload;
+      return { ...state, ordersList: orderDetails };
     default:
       return state;
   }

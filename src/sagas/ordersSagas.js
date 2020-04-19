@@ -62,8 +62,7 @@ function* getOrders({ payload }) {
     const slug = generateFlowSlug(filter, type, id, selectedJob);
     const ordersData = yield GetFlowEntries(slug, token);
     const { data: orders = [] } = ordersData;
-    //const adminToken = localStorage.getItem("AccessToken");
-    const getOrderDetails = yield all(
+    const orderDetails = yield all(
       (
         (Array.isArray(orders) &&
         orders.length &&
@@ -72,7 +71,7 @@ function* getOrders({ payload }) {
       ).map((items) => items && GetOrder(items.order_id))
     );
 
-    yield put({ type: setOrdersList, payload: { getOrderDetails } });
+    yield put({ type: setOrdersList, payload: { orderDetails } });
   } catch (err) {
     console.log(err);
   }

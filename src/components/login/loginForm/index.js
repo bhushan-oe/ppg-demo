@@ -19,8 +19,8 @@ export const LoginForm = connect(
   null,
   mapDispatchToProps
 )(({ doLogin }) => {
-  const [username, setUsername] = useState("chris@example.com");
-  const [password, setPassword] = useState("password");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const history = useHistory();
 
   const onFormSubmit = useCallback(

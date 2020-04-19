@@ -47,30 +47,39 @@ export const OrderDetails = connect(
   const displayApproveButton =
     customerRole === "approver" && filter === ORDER_STATUS_APPROVAL_PENDING;
 
+  const { data: 
+    { id,
+      customer: { name },
+      meta: {display_price: {with_tax: {formatted }}, timestamps: { created_at }}
+    }
+  } = order;
+
   return (
-    customerRole === "approver" ? (
+    displayApproveButton && order ? (
       <Grid className={classes.root} container>
-        <Grid className={classes.heading} item xs={3}>{order.order_id}</Grid>
-        <Grid className={classes.heading} item xs={3}>15th Oct 2019</Grid>
-        <Grid className={classes.heading} item xs={2}>$100</Grid>
+        <Grid className={classes.heading} item xs={2}>{id}</Grid>
+        <Grid className={classes.heading} item xs={2}>{name}</Grid>
+        <Grid className={classes.heading} item xs={2}>{created_at.split("T",1)}</Grid>
+        <Grid className={classes.heading} item xs={2}>{formatted}</Grid>
         <Grid className={classes.heading} item xs={2}>
           <OrderApproveButton 
             show={displayApproveButton} 
-            orderId={order.order_id}
+            orderId={id}
             title={"Approve"} />
         </Grid>
         <Grid className={classes.heading} item xs={2}>
           <OrderApproveButton 
             show={displayApproveButton} 
-            orderId={order.order_id}
+            orderId={id}
             title={"Reject"} />
         </Grid>
       </Grid>
       ) : (
-        <Grid className={classes.root} container>
-          <Grid className={classes.heading} item xs={5}>{order.order_id}</Grid>
-          <Grid className={classes.heading} item xs={4}>15th Oct 2019</Grid>
-          <Grid className={classes.heading} item xs={3}>$100</Grid>
+        order && <Grid className={classes.root} container>
+          <Grid className={classes.heading} item xs={3}>{id}</Grid>
+          <Grid className={classes.heading} item xs={3}>{name}</Grid>
+          <Grid className={classes.heading} item xs={3}>{created_at.split("T",1)}</Grid>
+          <Grid className={classes.heading} item xs={3}>{formatted}</Grid>
         </Grid>
       )    
   );
