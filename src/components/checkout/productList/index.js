@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { ItemSelector } from './../../shared'
+import { ItemListing } from './checkoutItemListing';
 import { mockItems } from './mockItems'
 import sagaTypes from '../../../sagas/sagaTypes'
 
@@ -27,15 +27,8 @@ const ProductList = connect(
   return (
     <div>
       <h2>Cart</h2>
-      {cartItems &&
-        cartItems.map((item) => {
-          return (<div style={{borderBottom: "1px solid"}}>
-            {`${item.name}${item.sku}
-            ${item.unit_price.amount / 100}
-            ${item.value.amount / 100}
-            ${item.quantity}`}
-          </div>)
-        })}
+      <ItemListing
+      cartItems={cartItems} />
     </div>
   )
 })
