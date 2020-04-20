@@ -11,7 +11,6 @@ function* approveOrderOfUser({ payload }) {
     const resp = yield call(approveOrderOfUserById, payload);
     if (resp.status === 200) {
       yield put({ type: approveOrderById, payload: { orderStatus: "STATUS" } });
-      console.log("order approved !!!!");
       yield put({ type: getOrdersList, payload: {filter: "approvalPending" }});
     }
   } catch (err) {
