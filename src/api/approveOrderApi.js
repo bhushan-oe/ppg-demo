@@ -8,5 +8,5 @@ export function approveOrderOfUserById (orderId) {
   const header = {
       'Authorization': `Bearer ${accessToken}`
   }
-  return axios.get(approveOrderApi, {headers : header});
+  return axios.post(approveOrderApi, null, {headers : header});
 }

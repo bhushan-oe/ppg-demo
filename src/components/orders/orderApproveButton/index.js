@@ -18,13 +18,13 @@ const mapDispatchToProps = (dispatch) => {
 
 export const OrderApproveButton = ({ show = false, orderId, approveOrderOfUser, title }) => {
 
-  const approveOrder = (orderId) => {
-    approveOrderOfUser(orderId);
+  const approveOrder = (orderId, title) => {
+    title === 'approver' && approveOrderOfUser(orderId);
   }
 
   return show ? 
     <button className="approve-button" 
-      onClick={() => approveOrder(orderId)}>{title}</button> 
+      onClick={() => approveOrder(orderId, title)}>{title}</button> 
     : null;
 };
 
