@@ -28,23 +28,22 @@ const useStyles = makeStyles(theme => {
         padding: '10px 14px'
       }
     },
-    image: {
+    imageStyel: {
       width: '150px'
     }
   }
 });
 
 const Item = ({item}) => {
-  const {meta,name, quantity } = item
-  const {property, image} = useStyles();
-  const imageLink = "https://wmu.epdemos.com/static/dbc38af2966a367464d252ec1bd0e50f/2244e/6ff1ccdc-3ca5-4b95-bac5-c0a040289150.jpg";
+  const {meta,sku_name, quantity, image } = item
+  const {property, imageStyel} = useStyles();
 
   return (
     <>
       <Grid className={property} item xs={3}>
-        <img className={image} src={imageLink} alt="img" />
+        <img className={imageStyel} src={image.href} alt="img" />
       </Grid>
-      <Grid className={property} item xs={3}>{name}</Grid>
+      <Grid className={property} item xs={3}>{sku_name}</Grid>
       <Grid className={property} item xs={2}>{meta.display_price.with_tax.unit.formatted}</Grid>
       <Grid className={property} item xs={2}>{quantity}</Grid>
       <Grid className={property} item xs={2}>{meta.display_price.with_tax.value.formatted}</Grid>
