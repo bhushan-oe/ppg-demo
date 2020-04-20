@@ -1,5 +1,5 @@
 import { GetFlowEntries, GetFlowEntry, GetOrder } from "../helper/moltin";
-import { getUserDetails, getSelectedJob, getSelectedAccount } from "./selectors";
+import { getUserDetails, getSelectedJob, getSelectedAccount, getCustomerRole } from "./selectors";
 import {
   ORDER_STATUS_APPROVAL_DONE,
   ORDER_STATUS_APPROVAL_PENDING,
@@ -56,10 +56,11 @@ function* getOrders({ payload }) {
     const selectedJob = yield select(getSelectedJob);
     const { data = {} } = userDetails || {};
     const { id, token, type } = data;
+    const customerRole = yield select(getCustomerRole);
     if (!id) {
       return null;
     }
-    const slug = generateFlowSlug(filter, type, id, selectedJob);
+    const slug = generateFlowSlug(filter, customerRole, id, selectedJob);
     const ordersData = yield GetFlowEntries(slug, token);
     const { data: orders = [] } = ordersData;
     const orderDetails = yield all(
@@ -84,7 +85,9 @@ function* checkoutSaga({payload, history}){
     const selectedAccount = yield select(getSelectedAccount);
     const selectedJob = yield select(getSelectedJob);
     const {id: customerId = null } = userDetails && userDetails.data || {};
-    const resp = yield call(submitOrder, payload, selectedAccount.id, selectedJob.id, customerId);
+    //get dynamic role
+    const customerRole = yield select(getCustomerRole);
+    const resp = yield call(submitOrder, payload, selectedAccount.id, selectedJob.id, customerId,customerRole || "buyer");
     const {data} = resp;
     history.push('/thankyou?order_id='+ data.order_id);
    

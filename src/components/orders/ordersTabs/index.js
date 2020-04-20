@@ -69,7 +69,7 @@ export const OrdersTabs =  connect(mapStateToProps,mapDispatchToProps)(({authent
   
   const classes = useStyles();
 
-  const [value, setValue] = useState({});
+  const [value, setValue] = useState("ordersPending");
   const [tabs, setTabs] = useState(null);
 
   const { user } = authentication || {};
