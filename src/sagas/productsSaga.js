@@ -45,23 +45,19 @@ function* getProducts({ payload }) {
     )
     productDetails.map((item, index)=>{
       item.data.imageurl = imageurls[index].data.link.href;
+      item.data.amount = cleanSKUArr[index].price
       if (item.data && item.data.id) {
         skuProducts[item.data.id] = item.data;
       }
       return;
     })
     yield put({ type: setSKUProductList, payload: { skuProducts } });
-    //const slug = generateFlowSlug(filter, type, id, selectedJob);
-     
-    // const { data: orders = [] } = ordersData;
 
-    // yield put({ type: setOrdersList, payload: { orders } });
   } catch (err) {
     console.log(err);
   }
 }
 
 export function* productSaga() {
-  //yield takeLatest(sagaTypes.orders.clearOrdersList, clearOrders);
   yield takeLatest(sagaTypes.products.getProductList, getProducts);
 }

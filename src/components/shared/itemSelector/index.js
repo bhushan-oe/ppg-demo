@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => {
   }
 });
 
-const Item = ({ id, meta,name, imageurl, price, handleChange, quantity }) => {
+const Item = ({ id, meta,name, imageurl, amount, handleChange, quantity }) => {
   const { quantityInput, property, image} = useStyles();
   return (
     <>
@@ -42,7 +42,7 @@ const Item = ({ id, meta,name, imageurl, price, handleChange, quantity }) => {
         <img className={image} src={imageurl} alt="img" />
       </Grid>
       <Grid className={property} item xs={5}>{name}</Grid>
-      <Grid className={property} item xs={2}>{`$${parseInt(price[0].amount)/100}`}</Grid>
+      <Grid className={property} item xs={2}>{`$${parseInt(amount)/100}`}</Grid>
       <Grid className={property} item xs={2}>
         <OutlinedInput
           className={quantityInput}
