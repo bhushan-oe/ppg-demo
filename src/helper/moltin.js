@@ -35,7 +35,7 @@ export const GetProduct = ID => Moltin.Products.Get(ID);
 
 // export const Checkout = data => Moltin.Cart().Checkout(data);
 
-export const GetOrder = (ID,token) => Moltin.Orders.Get(ID,token);
+export const GetOrder = (ID,token) => Moltin.Orders.With('items').Get(ID,token);
 
 // export const OrderPay = (ID, data) => Moltin.Orders.Payment(ID, data);
 

@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     background: '#fafafa',
-    marginBottom: '25px'
   },
   heading: {
     ...theme.typography.overline,
