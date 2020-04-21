@@ -20,11 +20,6 @@ export const Footer = () => {
       <Container className={classes.footer}>
         <Grid container>
           <Grid item xs={12}>
-            <Typography>Footer</Typography>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={12}>
             <Typography className={classes.smallText}>
               PPG Demo UI &ndash; 2020 &ndash; &copy; Object Edge Inc.
             </Typography>
