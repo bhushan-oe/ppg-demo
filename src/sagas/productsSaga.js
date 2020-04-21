@@ -44,10 +44,10 @@ function* getProducts({ payload }) {
       })
     )
     productDetails.map((item, index)=>{
-      item.data.imageurl = imageurls[index].data.link.href;
-      item.data.amount = cleanSKUArr[index].price
+      const imageurl = imageurls[index].data.link.href;
+      const amount = cleanSKUArr[index].price
       if (item.data && item.data.id) {
-        skuProducts[item.data.id] = item.data;
+        skuProducts[item.data.id] = {amount, imageurl, ...item.data};
       }
       return;
     })

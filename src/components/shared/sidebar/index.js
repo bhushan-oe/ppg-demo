@@ -25,6 +25,13 @@ const useStyles = makeStyles((theme) => ({
   drawerContainer: {
     overflow: "auto",
 
+  },
+  listItem: {
+    display: 'block'
+  }, 
+  selectedText: {
+    margin:0,
+    fontSize:14
   }
 }));
 
@@ -33,13 +40,16 @@ const mapStateToProps = ({ accounts, jobs }) => ({
   jobs,
 });
 
-export const Sidebar = connect(mapStateToProps)(() => {
+export const Sidebar = connect(mapStateToProps)(({ accounts, jobs }) => {
+
   const classes = useStyles();
   const history = useHistory();
-  const sidebarPanel = ["home", "accounts", "jobs"];
+  const sidebarPanel = [{name:"home", value: ''},{name: "accounts", value: accounts.selectedAccount && accounts.selectedAccount.name},{name: "jobs", value: jobs.selectedJob && jobs.selectedJob.name}];
+  
+  
   const currentLocation = window.location.pathname.replace('/','');
 
-  const index = sidebarPanel.indexOf(currentLocation);
+  const index = sidebarPanel.map(function(e) { return e.name; }).indexOf(currentLocation);
   if (index > -1) {
     sidebarPanel.splice(index, sidebarPanel.length);
   }
@@ -50,7 +60,6 @@ export const Sidebar = connect(mapStateToProps)(() => {
     else
       history.push("/"+ text);
   }
-
   return (
     <Drawer
       className={classes.drawer}
@@ -62,9 +71,10 @@ export const Sidebar = connect(mapStateToProps)(() => {
       <Toolbar />
       <div className={classes.drawerContainer}>
         <List>
-          {sidebarPanel.map((text, index) => (
-            <ListItem button key={text} onClick={() => navLinksRedirect(text)}>
-              <ListItemText primary={text.toUpperCase()} />
+          {sidebarPanel.map((menu, index) => (
+            <ListItem className={classes.listItem} button key={menu.name} onClick={() => navLinksRedirect(menu.name)}>
+              <ListItemText primary={menu.name.toUpperCase()} />
+              {menu.value && <p className={classes.selectedText}>({menu.value})</p>}
             </ListItem>
           ))}
         </List>
